@@ -45,3 +45,11 @@ seeds:
   tr_ecom_dbt:
     load:
       schema: load
+      daily:
+        +tags: "daily"
+      hourly:
+        +tags: "hourly"
+      forecast:
+        +tags: "forecast"
+      weekly:
+        +tags: "weekly"

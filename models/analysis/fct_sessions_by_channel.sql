@@ -16,8 +16,8 @@ cte_analytics as (
         coalesce(quantity, 0) as analytics_units,
         coalesce(shipping, 0) as analytics_shipping,
         coalesce(tax, 0) as analytics_tax
-    from {{ref('ga_channels_sessions')}}
-    full join {{ref('ga_channels_items')}} using(date, channel)
+    from {{ref('ga_sessions')}}
+    full join {{ref('ga_items')}} using(date, channel)
 ),
 cte_demand as (
     select
