@@ -183,6 +183,6 @@ select
     current_timestamp() as inserted_ts
 from cte_all
 where
-    year_id >= (select year_id - 5 from cte_all where date = current_date() - 1)
+    year_id >= 2019
     and year_id <= (select year_id + 1 from cte_all where date = current_date() - 1)
 order by 1
