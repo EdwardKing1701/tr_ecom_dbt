@@ -5,4 +5,3 @@ git fetch
 git rebase
 git push
 dbt seed --select tag:%1
-@pause
