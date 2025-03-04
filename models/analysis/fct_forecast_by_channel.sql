@@ -15,7 +15,7 @@ select
     f_web_bdgt_co_ord_rtl as budget,
     rcd_upd_ts as source_synced_ts,
     current_timestamp() as inserted_ts
-from robling_prd_db.dw_dwh_tr.dwh_f_web_pln_d_b
+from {{source('robling_tr', 'dwh_f_web_pln_d_b')}}
 where
     channel <> 'ECOM Total'
-order by 1,2
+order by date, channel

@@ -1,0 +1,28 @@
+version: 2
+
+sources:  
+  - name: sfcc
+    database: tr_prd_fivetran_db
+    schema: salesforce_commerce_cloud
+    tables:
+        - name: orders_history
+        - name: order_product_item
+        - name: inventory_list_record
+        - name: product
+  - name: robling_dwh
+    database: robling_prd_db
+    schema: dw_dwh
+    tables:
+        - name: dwh_d_prd_itm_lu
+  - name: robling_tr
+    database: robling_prd_db
+    schema: dw_dwh_tr
+    tables:
+      - name: dwh_f_web_pln_d_b
+  - name: robling_merch
+    database: robling_prd_db
+    schema: dm_merch_v
+    tables:
+      - name: dv_dwh_d_tim_day_lu
+      - name: dv_dwh_d_tim_min_of_day_lu
+      - name: dv_dm_f_meas_il_b

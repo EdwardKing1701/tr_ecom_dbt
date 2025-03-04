@@ -7,12 +7,12 @@ with
 cte_hour as (
     select
         min_key,
-        hr_24hr_id as order_hour
-    from robling_prd_db.dm_merch_v.dv_dwh_d_tim_min_of_day_lu
+        hr_24hr_id as hour
+    from {{source('robling_merch', 'dv_dwh_d_tim_min_of_day_lu')}}
 )
 select
-    meas_dt as order_date,
-    order_hour,
+    meas_dt as date,
+    hour,
     itm_key,
     min_key,
     attr_col_1 as channel,
@@ -22,7 +22,8 @@ select
     f_meas_qty as sale_qty,
     f_meas_cst as sale_cost,
     f_meas_rtl as sale_amt
-from robling_prd_db.dm_merch_v.dv_dm_f_meas_il_b
+from {{source('robling_merch', 'dv_dm_f_meas_il_b')}}
 natural left join cte_hour
 where
     meas_cde = 'CO_ORDERED'
+    and itm_key <> 565

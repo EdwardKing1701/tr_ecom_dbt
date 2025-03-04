@@ -55,7 +55,7 @@ cte_ltd as (
         sale_qty_ltd,
         sale_amt_ltd
     from {{ref('fct_sales_ltd')}}
-)
+),
 cte_sfcc_master as (
     select
         id as sty_id,
