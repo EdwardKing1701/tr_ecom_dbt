@@ -30,7 +30,7 @@ cte_demand_sales as (
         count(distinct order_id) as orders_total,
         sum(sale_qty) as sale_qty_total,
         sum(sale_amt) as sale_amt_total
-    from {{ref('v_demand_sales')}}
+    from {{ref('v_fct_order_items')}}
     group by all
 ),
 cte_adjusted_demand as (

@@ -39,6 +39,8 @@ models:
       schema: analysis
     report:
       schema: report
+    validation:
+      schema: validation
 
 seeds:
   +copy_grants: true
@@ -53,3 +55,14 @@ seeds:
         +tags: "forecast"
       weekly:
         +tags: "weekly"
+
+data_tests:
+  +copy_grants: true
+  +schema: validation
+  +store_failures: true
+  transient: false # So we can time travel tables
+  tr_ecom_dbt:
+    sources:
+      +tags: "tests_sources"
+    postrun:
+      +tags: "tests_postrun"

@@ -33,7 +33,7 @@ cte_rep_color_setup as (
         color_id as rep_color_id,
         color_desc as rep_color_desc,
         sum(sale_amt) as sales
-    from {{ref('v_demand_sales')}}
+    from {{ref('v_fct_order_items')}}
     join cte_catalogue using(itm_key)
     where
         date between previous_day(current_date(), 'sa') - 6 and previous_day(current_date(), 'sa')
@@ -61,7 +61,7 @@ select
     div_desc,
     sum(sale_amt) as sales,
     sum(sale_qty) as units
-from {{ref('v_demand_sales')}}
+from {{ref('v_fct_order_items')}}
 join cte_catalogue using(itm_key)
 join cte_rep_color using(sty_id)
 where

@@ -26,7 +26,7 @@ cte_forecast as (
         channel,
         forecast,
         budget
-    from {{ref('fct_forecast_by_channel')}}
+    from {{ref('v_fct_forecast_by_channel')}}
 )
 select
     date,
