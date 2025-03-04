@@ -2,19 +2,18 @@ with
 cte_test as (
     select
         '{{this.name}}' as test_name,
-        'analysis.v_forecast_by_day' as source_name,
+        'load.mstr_net_sales' as source_name,
         null as dimension,
-        'Forecast > 0' as description,
+        'Net Sales not null' as description,
         null as source_synced_ts,
         null as max_data_date,
         analysis.local_time(current_timestamp()) as tested_ts,
-        sum(forecast) as data,
+        net_sales_retail as data,
         null as stop_execution,
-        data > 0 as passed
-    from {{ref('v_fct_forecast_by_day')}}
+        net_sales_retail is not null as passed
+    from {{ref('mstr_net_sales')}}
     where
         date = current_date() - 1
-    group by all
 )
 select
     *

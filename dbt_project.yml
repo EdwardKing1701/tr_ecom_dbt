@@ -64,5 +64,3 @@ data_tests:
   tr_ecom_dbt:
     sources:
       +tags: "tests_sources"
-    postrun:
-      +tags: "tests_postrun"

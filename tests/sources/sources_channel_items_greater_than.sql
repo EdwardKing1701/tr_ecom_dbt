@@ -2,16 +2,16 @@ with
 cte_test as (
     select
         '{{this.name}}' as test_name,
-        'analysis.v_fct_order_items' as source_name,
+        'load.ga_items' as source_name,
         null as dimension,
-        'Sales > 0' as description,
+        'Channel items > 2,500' as description,
         null as source_synced_ts,
         null as max_data_date,
         analysis.local_time(current_timestamp()) as tested_ts,
-        sum(sale_amt) as data,
+        sum(quantity) as data,
         null as stop_execution,
-        data > 0 as passed
-    from {{ref('v_fct_order_items')}}
+        data > 2500 as passed
+    from {{ref('ga_items')}}
     where
         date = current_date() - 1
     group by all
