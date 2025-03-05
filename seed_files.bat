@@ -4,4 +4,4 @@ git commit -m "Automated update of seed files"
 git fetch
 git rebase
 git push
-dbt seed --select tag:%1
+dbt seed --select tag:%1 --target prod

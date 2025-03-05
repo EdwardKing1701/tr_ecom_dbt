@@ -1,6 +1,7 @@
 {{
     config(
-        materialized = 'table'
+        materialized = 'table',
+        pk = ['itm_id']
     )
 }}
 with
