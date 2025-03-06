@@ -10053,7 +10053,7 @@
 2025-03-02,SMS,836
 2025-03-02,Unassigned,109
 2025-03-03,Affiliates,598
-2025-03-03,Direct,1466
+2025-03-03,Direct,1468
 2025-03-03,Email,767
 2025-03-03,Mobile Push Notifications,278
 2025-03-03,Organic Search,383
@@ -10064,15 +10064,29 @@
 2025-03-03,Referral,3
 2025-03-03,SMS,780
 2025-03-03,Unassigned,103
-2025-03-04,Affiliates,675
-2025-03-04,Direct,1619
+2025-03-04,Affiliates,670
+2025-03-04,Direct,1557
 2025-03-04,Email,829
-2025-03-04,Mobile Push Notifications,276
-2025-03-04,Organic Search,325
-2025-03-04,Organic Social,53
+2025-03-04,Mobile Push Notifications,306
+2025-03-04,Organic Search,323
+2025-03-04,Organic Shopping,17
+2025-03-04,Organic Social,51
 2025-03-04,Paid Other,5
-2025-03-04,Paid Search,1866
-2025-03-04,Paid Social,348
-2025-03-04,Referral,3
-2025-03-04,SMS,672
-2025-03-04,Unassigned,80
+2025-03-04,Paid Search,1897
+2025-03-04,Paid Social,347
+2025-03-04,Referral,8
+2025-03-04,SMS,661
+2025-03-04,Unassigned,113
+2025-03-05,Affiliates,880
+2025-03-05,Direct,2169
+2025-03-05,Display,2
+2025-03-05,Email,962
+2025-03-05,Mobile Push Notifications,389
+2025-03-05,Organic Search,560
+2025-03-05,Organic Shopping,4
+2025-03-05,Organic Social,60
+2025-03-05,Paid Search,2530
+2025-03-05,Paid Social,638
+2025-03-05,Referral,6
+2025-03-05,SMS,1026
+2025-03-05,Unassigned,103
