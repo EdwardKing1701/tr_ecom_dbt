@@ -43,6 +43,7 @@ models:
       schema: report
     validation:
       schema: validation
+      +tags: "daily"
 
 seeds:
   +copy_grants: true
