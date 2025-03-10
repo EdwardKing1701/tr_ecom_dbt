@@ -37,6 +37,8 @@ models:
   tr_ecom_dbt:
     analysis:
       schema: analysis
+      daily:
+        +tags: "daily"
     report:
       schema: report
     validation:
