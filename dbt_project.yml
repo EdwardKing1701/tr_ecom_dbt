@@ -60,6 +60,7 @@ seeds:
         +tags: "weekly"
     price_file:
       schema: price_file
+      +tags: "price_file"
 
 data_tests:
   +copy_grants: true
