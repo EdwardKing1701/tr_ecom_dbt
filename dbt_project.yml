@@ -58,6 +58,8 @@ seeds:
         +tags: "forecast"
       weekly:
         +tags: "weekly"
+    price_file:
+      schema: price_file
 
 data_tests:
   +copy_grants: true
