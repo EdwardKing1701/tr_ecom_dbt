@@ -26,3 +26,8 @@ sources:
       - name: dv_dwh_d_tim_day_lu
       - name: dv_dwh_d_tim_min_of_day_lu
       - name: dv_dm_f_meas_il_b
+  - name: load
+    database: tr_prd_ecom_db
+    schema: load
+    tables:
+      - name: price_lists
