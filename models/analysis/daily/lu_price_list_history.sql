@@ -10,22 +10,11 @@ select
     replace(source_file_name, '.xlsx', '') as price_list,
     effective_date as price_from_date,
     end_date as price_to_date,
-    msrp,
+    {# msrp, #}
     sale_price,
     coalesce(category_reg_sale, 'REG') as price_category,
-    inventory_class,
-    season_code,
-    last_receipt_date,
-    first_sale_date,
-    us_ecom_oh_u,
-    inventory_feed,
-    oo_u,
-    image,
-    online,
-    notes,
-    holds,
-    new_arrivals,
-    inserted_ts as source_synced_ts
+    inserted_ts as source_synced_ts,
+    current_timestamp() as inserted_ts
 from {{source('load', 'price_lists')}}
 join {{ref('stg_price_list')}} using(source_file_name)
 where
