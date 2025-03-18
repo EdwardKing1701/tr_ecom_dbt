@@ -1,13 +1,13 @@
 {{
     config(
         materialized = 'table',
-        pk = ['price_list']
+        pk = ['source_file_name']
     )
 }}
 with
 cte_price_lists as (
     select
-        replace(source_file_name, '.xlsx', '') as price_list,
+        source_file_name,
         coalesce(price_list_type_override,
             case
                 when source_file_name ilike '%One Site Pricing%' then
@@ -25,14 +25,19 @@ cte_price_lists as (
 ),
 cte_end_date as (
     select
-        price_list as next_price_list,
+        source_file_name as next_source_file_name,
         dateadd('day', -1, effective_date) as end_date
     from cte_price_lists
     where
         price_list_type = 'Standard'
+    union all
+    select
+        '(N/A)' as next_price_list,
+        '2199-01-01' as end_date
 )
 select
-    price_list,
+    source_file_name,
+    next_source_file_name,
     price_list_type,
     effective_date,
     end_date,
@@ -41,5 +46,5 @@ from cte_price_lists
 left join cte_end_date
 where
     end_date >= effective_date
-qualify row_number() over (partition by price_list order by end_date) = 1
+qualify row_number() over (partition by source_file_name order by end_date) = 1
 order by effective_date, price_list_type desc
