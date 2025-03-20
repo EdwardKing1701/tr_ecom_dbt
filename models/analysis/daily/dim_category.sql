@@ -31,6 +31,7 @@ select
     c_show_in_menu as show_in_menu,
     c_menu_display as menu_display,
     c_size_chart_id as size_chart_id,
+    category_id ilike '%new-arrival%' as is_new_arrival,
     convert_timezone('America/Los_Angeles', _fivetran_synced) as source_synced_ts,
     current_timestamp() as inserted_ts
 from {{source('sfcc', 'category')}}
