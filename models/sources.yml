@@ -9,6 +9,7 @@ sources:
         - name: order_product_item
         - name: inventory_list_record
         - name: product
+        - name: category
         - name: assigned_category
   - name: robling_dwh
     database: robling_prd_db
