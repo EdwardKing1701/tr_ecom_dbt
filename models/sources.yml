@@ -2,7 +2,7 @@ version: 2
 
 sources:  
   - name: sfcc
-    database: tr_prd_fivetran_db
+    database: tr_prd_db_fivetran
     schema: salesforce_commerce_cloud
     tables:
         - name: orders_history
