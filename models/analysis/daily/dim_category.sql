@@ -38,6 +38,5 @@ from {{source('sfcc', 'category')}}
 left join cte_hierarchy using(id)
 where
     catalog_id = 'tr-ecom-catalog'
-    and id = 'mens-jeans-silhouette'
     and not _fivetran_deleted
 order by category_id
