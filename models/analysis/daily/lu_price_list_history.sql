@@ -5,8 +5,8 @@
     )
 }}
 select
-    split(style_color, '-')[0] as style,
-    split(style_color, '-')[1] as color,
+    split(style_color, '-')[0]::varchar as style,
+    split(style_color, '-')[1]::varchar as color,
     replace(source_file_name, '.xlsx', '') as price_list,
     effective_date as price_from_date,
     end_date as price_to_date,

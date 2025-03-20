@@ -7,7 +7,7 @@
 with
 cte_items as (
     select
-        sku,
+        sku::varchar as sku,
         inventory_class,
         season_code,
         original_price,
@@ -24,7 +24,7 @@ cte_items as (
 ),
 cte_net_sales as (
     select
-        sku,
+        sku::varchar as sku,
         sum(iff(date between current_date() - 28 and current_date() - 22, net_sales_units, 0)) as net_sales_units_4wk,
         sum(iff(date between current_date() - 21 and current_date() - 15, net_sales_units, 0)) as net_sales_units_3wk,
         sum(iff(date between current_date() - 14 and current_date() - 8, net_sales_units, 0)) as net_sales_units_2wk,
@@ -47,7 +47,7 @@ cte_net_sales as (
 ),
 cte_demand_sales as (
     select
-        sku,
+        sku::varchar as sku,
         sum(iff(date between current_date() - 28 and current_date() - 22, sale_qty, 0)) as dmd_sales_units_4wk,
         sum(iff(date between current_date() - 21 and current_date() - 15, sale_qty, 0)) as dmd_sales_units_3wk,
         sum(iff(date between current_date() - 14 and current_date() - 8, sale_qty, 0)) as dmd_sales_units_2wk,
@@ -72,7 +72,7 @@ cte_demand_sales as (
 ),
 cte_inventory as (
     select
-        sku,
+        sku::varchar as sku,
         sum(inventory_units) as inventory_units,
         sum(inventory_cost) as inventory_cost,
         sum(inventory_retail) as inventory_retail
@@ -83,7 +83,7 @@ cte_inventory as (
     group by all
 )
 select
-    sku,
+    sku::varchar as sku,
     inventory_class,
     season_code,
     first_receipt_date,
