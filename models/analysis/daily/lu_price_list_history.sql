@@ -10,7 +10,6 @@ select
     replace(source_file_name, '.xlsx', '') as price_list,
     effective_date as price_from_date,
     end_date as price_to_date,
-    {# msrp, #}
     sale_price,
     coalesce(category_reg_sale, 'REG') as price_category,
     inserted_ts as source_synced_ts,

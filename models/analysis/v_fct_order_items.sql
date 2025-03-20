@@ -14,6 +14,7 @@ select
     meas_dt as date,
     hour,
     itm_key,
+    sku,
     min_key,
     attr_col_1 as channel,
     attr_col_2 as order_id,
