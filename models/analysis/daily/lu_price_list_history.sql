@@ -12,6 +12,8 @@ select
     end_date as price_to_date,
     sale_price,
     coalesce(category_reg_sale, 'REG') as price_category,
+    notes,
+    holds,
     inserted_ts as source_synced_ts,
     current_timestamp() as inserted_ts
 from {{source('load', 'price_lists')}}
