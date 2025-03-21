@@ -243,5 +243,5 @@ where
     or coalesce(net_sales_units_2wk, 0) <> 0
     or coalesce(net_sales_units_3wk, 0) <> 0
     or coalesce(net_sales_units_4wk, 0) <> 0
-    or coalesce(inventory_units, 0) <> 0
+    or coalesce(inventory_units, 0) > 1
     or coalesce(stock_level, 0) <> 0
