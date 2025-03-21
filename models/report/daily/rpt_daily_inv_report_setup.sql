@@ -67,6 +67,7 @@ cte_demand_sales as (
     join {{ref('v_dim_item')}} using(itm_key)
     where
         date between current_date() - 28 and current_date() - 1
+        and channel = '004:ECOM FULL PRICE'
     group by all
 
 ),

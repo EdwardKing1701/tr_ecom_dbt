@@ -233,3 +233,15 @@ left join cte_sfcc_master using(style)
 left join cte_sfcc_variant using(sku)
 left join cte_new_arrival using(style)
 left join cte_price_file using(style, color)
+where
+    coalesce(dmd_sales_units_today, 0) <> 0
+    or coalesce(dmd_sales_retail_1wk, 0) <> 0
+    or coalesce(dmd_sales_retail_2wk, 0) <> 0
+    or coalesce(dmd_sales_retail_3wk, 0) <> 0
+    or coalesce(dmd_sales_retail_4wk, 0) <> 0
+    or coalesce(net_sales_units_1wk, 0) <> 0
+    or coalesce(net_sales_units_2wk, 0) <> 0
+    or coalesce(net_sales_units_3wk, 0) <> 0
+    or coalesce(net_sales_units_4wk, 0) <> 0
+    or coalesce(inventory_units, 0) <> 0
+    or coalesce(stock_level, 0) <> 0
