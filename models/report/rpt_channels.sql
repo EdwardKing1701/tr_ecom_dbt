@@ -27,6 +27,14 @@ cte_forecast as (
         forecast,
         budget
     from {{ref('v_fct_forecast_by_channel')}}
+),
+cte_spend as (
+    select
+        date,
+        channel,
+        spend,
+        spend_forecast
+    from {{ref('fct_spend_by_channel')}}
 )
 select
     date,
@@ -41,7 +49,10 @@ select
     coalesce(orders_unadjusted, 0) as orders_unadjusted,
     coalesce(sale_qty_unadjusted, 0) as sale_qty_unadjusted,
     coalesce(sale_amt_unadjusted, 0) as sale_amt_unadjusted,
-    coalesce(forecast, 0) as forecast,
-    coalesce(budget, 0) as budget
+    coalesce(forecast, 0) as sale_amt_forecast,
+    coalesce(budget, 0) as sale_amt_budget,
+    coalesce(spend, 0) as spend,
+    coalesce(spend_forecast, 0) as spend_forecast
 from cte_channels
 natural full join cte_forecast
+natural full join cte_spend
