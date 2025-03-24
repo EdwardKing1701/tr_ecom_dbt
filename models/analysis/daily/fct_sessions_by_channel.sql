@@ -13,7 +13,9 @@ cte_analytics_channel as (
         coalesce(engaged_sessions, 0) as engaged_sessions_unadjusted,
         coalesce(purchases, 0) as orders_unadjusted,
         coalesce(quantity, 0) as sale_qty_unadjusted,
-        coalesce(revenue, 0) as sale_amt_unadjusted
+        coalesce(revenue, 0) as sale_amt_unadjusted,
+        coalesce(shipping, 0) as shipping_unadjusted,
+        coalesce(tax, 0) as tax_unadjusted
     from {{ref('ga_channels')}}
     full join {{ref('ga_items')}} using(date, channel)
 ),
@@ -29,8 +31,10 @@ cte_demand_sales as (
         date,
         count(distinct order_id) as orders_total,
         sum(sale_qty) as sale_qty_total,
-        sum(sale_amt) as sale_amt_total
-    from {{ref('v_fct_order_items')}}
+        sum(sale_amt) as sale_amt_total,
+        sum(shipping) as shipping_total,
+        sum(tax) as tax_total
+    from {{ref('v_fct_orders')}}
     group by all
 ),
 cte_adjusted_demand as (
@@ -42,11 +46,15 @@ cte_adjusted_demand as (
         orders_total * ratio_to_report(orders_unadjusted) over (partition by date) as orders,
         sale_qty_total * ratio_to_report(sale_qty_unadjusted) over (partition by date) as sale_qty,
         sale_amt_total * ratio_to_report(sale_amt_unadjusted) over (partition by date) as sale_amt,
+        shipping_total * ratio_to_report(shipping_unadjusted) over (partition by date) as shipping,
+        tax_total * ratio_to_report(tax_unadjusted) over (partition by date) as tax,
         sessions_unadjusted,
         engaged_sessions_unadjusted,
         orders_unadjusted,
         sale_qty_unadjusted,
-        sale_amt_unadjusted
+        sale_amt_unadjusted,
+        shipping_unadjusted,
+        tax_unadjusted
     from cte_analytics_channel
     natural join cte_demand_sales
     natural join cte_analytics_session

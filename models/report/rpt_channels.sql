@@ -13,11 +13,15 @@ cte_channels as (
         orders,
         sale_qty,
         sale_amt,
+        shipping,
+        tax,
         sessions_unadjusted,
         engaged_sessions_unadjusted,
         orders_unadjusted,
         sale_qty_unadjusted,
-        sale_amt_unadjusted
+        sale_amt_unadjusted,
+        shipping_unadjusted,
+        tax_unadjusted
     from {{ref('fct_sessions_by_channel')}}
 ),
 cte_forecast as (
