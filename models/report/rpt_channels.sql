@@ -35,9 +35,16 @@ cte_spend as (
         spend,
         spend_forecast
     from {{ref('fct_spend_by_channel')}}
+),
+cte_year_id as (
+    select
+        date,
+        year_id
+    from {{ref('dim_date')}}
 )
 select
     date,
+    year_id,
     channel,
     sessions,
     coalesce(engaged_sessions, 0) as engaged_sessions,
@@ -56,3 +63,4 @@ select
 from cte_channels
 natural full join cte_forecast
 natural full join cte_spend
+natural join cte_year_id
