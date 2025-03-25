@@ -5,8 +5,6 @@ with
 cte_calendar as (
     select *
     from {{ref('dim_date')}}
-    where
-        date in (current_date(), current_date() - 7, current_date() - 364)
 ),
 wow_tw_today as (
 	select
