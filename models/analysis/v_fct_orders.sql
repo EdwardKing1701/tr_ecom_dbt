@@ -13,8 +13,10 @@ cte_hour as (
 select
     attr_col_2 as order_id,
     min(meas_dt) as date,
-    min(hour) as hour,
+    min(to_timestamp_tz(meas_dt::varchar || ' ' || left(hour, 2) || ':00:00.000')) as order_ts,
     min(min_key) as min_key,
+    min(cus_key) as customer_key,
+    min(attr_col_7) as customer_id,
     min(attr_col_1) as channel,
     min(attr_col_11) as order_type,
     min(attr_col_12) as platform,

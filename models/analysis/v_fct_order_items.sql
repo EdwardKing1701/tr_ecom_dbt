@@ -3,12 +3,20 @@
         materialized = 'view'
     )
 }}
+with
+cte_hour as (
+    select
+        min_key,
+        hr_24hr_id as hour
+    from {{source('robling_merch', 'dv_dwh_d_tim_min_of_day_lu')}}
+)
 select
     meas_dt as date,
     itm_key,
-    sku,
+    to_timestamp_tz(meas_dt::varchar || ' ' || left(hour, 2) || ':00:00.000') as order_ts,
     attr_col_1 as channel,
     attr_col_2 as order_id,
+    attr_col_7 as customer_id,
     attr_col_11 as order_type,
     attr_col_12 as platform,
     f_meas_qty as sale_qty,
