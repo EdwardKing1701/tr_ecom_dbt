@@ -25,9 +25,9 @@ cte_sales_robling as (
         date,
         hour(order_ts) as hour,
         max(iff(order_id like 'FL%', null, order_ts)) as last_order_ts,
-        count(distinct order_id) as orders,
-        sum(sale_qty) as sale_qty,
-        sum(sale_amt) as sale_amt,
+        count(distinct order_id) as orders_robling,
+        sum(sale_qty) as sale_qty_robling,
+        sum(sale_amt) as sale_amt_robling,
         current_timestamp() as inserted_ts
     from {{ref('v_fct_order_items')}}
     where
@@ -76,13 +76,14 @@ cte_forecast as (
 select
     date,
     hour,
+    case
+        when orders_api is not null then 'api'
+        when orders_robling is not null then 'robling'
+    end as data_source,
     coalesce(last_order_ts_api, last_order_ts) as last_order_ts,
-    orders,
-    sale_qty,
-    sale_amt,
-    orders_api,
-    sale_qty_api,
-    sale_amt_api,
+    coalesce(orders_api, orders_robling) as orders,
+    coalesce(sale_qty_api, sale_qty_robling) as sale_qty,
+    coalesce(sale_amt_api, sale_amt_robling) as sale_amt,
     sessions,
     orders_forecast,
     sale_qty_forecast,
