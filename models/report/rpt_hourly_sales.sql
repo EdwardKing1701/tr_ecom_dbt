@@ -60,6 +60,18 @@ cte_sessions as (
             date between current_date() - 2 and current_date()
             or date in (select date_ly from {{ref('dim_date')}} where date between current_date() - 2 and current_date())
         )
+),
+cte_forecast as (
+    select
+        report_date,
+        hour,
+        orders_forecast,
+        sale_qty_forecast,
+        sale_amt_forecast,
+        sessions_forecast
+    from {{ref('rpt_hourly_sales_forecast')}}
+    where
+        date between current_date() - 2 and current_date()
 )
 select
     date,
@@ -71,7 +83,12 @@ select
     orders_api,
     sale_qty_api,
     sale_amt_api,
-    sessions
+    sessions,
+    orders_forecast,
+    sale_qty_forecast,
+    sale_amt_forecast,
+    sessions_forecast
 from cte_sales_robling
 full join cte_sales_api using(date, hour)
 full join cte_sessions using(date, hour)
+full join cte_forecast using(date, hour)
