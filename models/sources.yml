@@ -11,6 +11,11 @@ sources:
         - name: product
         - name: category
         - name: assigned_category
+  - name: gsheets
+    database: tr_prd_db_fivetran
+    schema: google_sheets
+    tables:
+        - name: intraday_comparison_override
   - name: robling_dwh
     database: robling_prd_db
     schema: dw_dwh

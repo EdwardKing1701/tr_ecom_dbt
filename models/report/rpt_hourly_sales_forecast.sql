@@ -22,6 +22,18 @@ cte_comp_dates as (
         date < report_date
         and dayofweek(date) = dayofweek(report_date)
         and date >= dateadd('day', -35, report_date)
+        and not report_date in (select date from {{source('gsheets', 'intraday_comparison_override')}})
+),
+cte_comp_dates_override as (
+    select
+        date as report_date,
+        comparable_date as date
+    from {{source('gsheets', 'intraday_comparison_override')}}
+    union all
+    select
+        report_date,
+        date
+    from cte_comp_dates
 ),
 cte_sales_hourly as (
     select
@@ -32,7 +44,7 @@ cte_sales_hourly as (
         sum(sale_qty) as sale_qty_hourly,
         sum(sale_amt) as sale_amt_hourly
     from {{ref('v_fct_order_items')}}
-    join cte_comp_dates using(date)
+    join cte_comp_dates_override using(date)
     group by all
 ),
 cte_sessions_hourly as (
@@ -42,7 +54,7 @@ cte_sessions_hourly as (
         hour,
         sessions as sessions_hourly
     from {{ref('ga_hourly')}}
-    join cte_comp_dates using(date)
+    join cte_comp_dates_override using(date)
 ),
 cte_share_of_sales_by_date as (
     select
