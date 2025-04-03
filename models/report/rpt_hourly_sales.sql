@@ -88,7 +88,13 @@ select
     orders_forecast,
     sale_qty_forecast,
     sale_amt_forecast,
-    sessions_forecast
+    sessions_forecast,
+    case
+        when data_source = 'robling' and orders > 2 then true
+        when minute(last_order_ts) >= 55 then true
+        when lead(orders, 1) over (partition by date order by hour) > 2 then true
+        else false
+    end as is_complete_hour
 from cte_sales_robling
 full join cte_sales_api using(date, hour)
 full join cte_sessions using(date, hour)
