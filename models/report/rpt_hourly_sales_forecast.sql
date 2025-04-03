@@ -75,7 +75,7 @@ cte_forecast as (
     from {{ref('v_fct_forecast_by_day')}}
 )
 select
-    report_date,
+    report_date as date,
     hour,
     avg_share_of_orders * orders_forecast_daily as orders_forecast,
     avg_share_of_sale_qty * sale_qty_forecast_daily as sale_qty_forecast,

@@ -23,7 +23,7 @@ qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
 cte_sales_robling as (
     select
         date,
-        date_trunc('hour', order_ts) as hour,
+        hour(order_ts) as hour,
         max(iff(order_id like 'FL%', null, order_ts)) as last_order_ts,
         count(distinct order_id) as orders,
         sum(sale_qty) as sale_qty,
@@ -40,7 +40,7 @@ cte_sales_robling as (
 cte_sales_api as (
     select
         order_date as date,
-        date_trunc('hour', order_ts) as hour,
+        hour(order_ts) as hour,
         max(iff(order_id like 'FL%', null, order_ts)) as last_order_ts_api,
         count(distinct order_id) as orders_api,
         sum(quantity) as sale_qty_api,
@@ -52,7 +52,7 @@ cte_sales_api as (
 cte_sessions as (
     select
         date,
-        dateadd('hour', hour, date)::timestamp_tz as hour,
+        hour,
         sessions
     from {{ref('ga_hourly')}}
     where
@@ -63,7 +63,7 @@ cte_sessions as (
 ),
 cte_forecast as (
     select
-        report_date,
+        date,
         hour,
         orders_forecast,
         sale_qty_forecast,
