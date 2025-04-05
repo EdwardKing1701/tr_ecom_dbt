@@ -75,7 +75,7 @@ cte_all_forecast as (
 
     select
         date,
-        'Total' as channel,
+        'ECOM Total' as channel,
         orders_forecast,
         sale_qty_forecast,
         sale_amt_forecast,
