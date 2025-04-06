@@ -8,16 +8,18 @@ with
 cte_analytics_channel as (
     select
         date,
-        channel,
-        coalesce(sessions, 0) as sessions_unadjusted,
-        coalesce(engaged_sessions, 0) as engaged_sessions_unadjusted,
-        coalesce(purchases, 0) as orders_unadjusted,
-        coalesce(quantity, 0) as sale_qty_unadjusted,
-        coalesce(revenue, 0) as sale_amt_unadjusted,
-        coalesce(shipping, 0) as shipping_unadjusted,
-        coalesce(tax, 0) as tax_unadjusted
+        coalesce(channel_correction, channel) as channel,
+        sum(sessions) as sessions_unadjusted,
+        sum(engaged_sessions) as engaged_sessions_unadjusted,
+        sum(purchases) as orders_unadjusted,
+        sum(quantity) as sale_qty_unadjusted,
+        sum(revenue) as sale_amt_unadjusted,
+        sum(shipping) as shipping_unadjusted,
+        sum(tax) as tax_unadjusted
     from {{ref('ga_channels')}}
     full join {{ref('ga_items')}} using(date, channel)
+    left join {{ref('channel_correction')}} using(channel)
+    group by all
 ),
 cte_analytics_session as (
     select
