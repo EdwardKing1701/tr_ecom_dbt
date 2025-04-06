@@ -8,16 +8,20 @@ with
 cte_spend as (
     select
         date,
-        channel,
-        spend
+        coalesce(channel_correction, channel) as channel,
+        sum(spend) as spend
     from {{ref('marketing_spend')}}
+    left join {{ref('channel_correction')}} using (channel)
+    group by all
 ),
 cte_forecast as (
     select
         date,
-        channel,
-        spend_forecast
+        coalesce(channel_correction, channel) as channel,
+        sum(spend_forecast) as spend_forecast
     from {{ref('marketing_spend_forecast')}}
+    left join {{ref('channel_correction')}} using (channel)
+    group by all
 )
 select
     date,

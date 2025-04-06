@@ -14,11 +14,12 @@ cte_last_updated as (
 select
     day_key as date,
     coalesce(channel_correction, channel) as channel,
-    f_web_fcst_co_ord_rtl as forecast,
-    f_web_bdgt_co_ord_rtl as budget,
-    rcd_upd_ts as source_synced_ts
+    sum(f_web_fcst_co_ord_rtl) as forecast,
+    sum(f_web_bdgt_co_ord_rtl) as budget,
+    max(rcd_upd_ts) as source_synced_ts
 from {{source('robling_tr', 'dwh_f_web_pln_d_b')}}
 natural join cte_last_updated
 left join {{ref('channel_correction')}} using (channel)
 where
     channel <> 'ECOM Total'
+group by all
