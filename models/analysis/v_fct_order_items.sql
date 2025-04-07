@@ -16,7 +16,7 @@ select
     to_timestamp_tz(meas_dt::varchar || ' ' || left(hour, 2) || ':00:00.000') as order_ts,
     attr_col_1 as channel,
     attr_col_2 as order_id,
-    attr_col_7 as customer_id,
+    trim(lower(attr_col_7)) as customer_id,
     attr_col_11 as order_type,
     attr_col_12 as platform,
     f_meas_qty as sale_qty,
