@@ -66,7 +66,7 @@ select
     coalesce(net_sale_qty, 0) as net_sale_qty,
     coalesce(net_sale_cost, 0) as net_sale_cost,
     coalesce(net_sale_amt, 0) as net_sale_amt,
-    (net_sale_amt - net_sale_cost) / nullifzero(net_sale_amt) as gross_margin,
+    net_sale_amt - net_sale_cost as gross_margin,
     coalesce(gross_sale_qty, 0) as gross_sale_qty,
     coalesce(gross_sale_cost, 0) as gross_sale_cost,
     coalesce(gross_sale_amt, 0) as gross_sale_amt,
