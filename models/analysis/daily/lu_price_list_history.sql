@@ -1,7 +1,8 @@
 {{
     config(
         materialized = 'table',
-        pk = ['style', 'color', 'price_list']
+        pk = ['style', 'color', 'price_list'],
+        enabled = false
     )
 }}
 select
@@ -17,7 +18,7 @@ select
     inserted_ts as source_synced_ts,
     current_timestamp() as inserted_ts
 from {{source('load', 'price_lists')}}
-join {{ref('stg_price_list')}} using(source_file_name)
+{# join {{ref('stg_price_list')}} using(source_file_name) #}
 where
     price_list_type = 'Standard'
 order by price_from_date, price_list, style, color
