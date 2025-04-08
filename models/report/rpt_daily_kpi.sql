@@ -14,8 +14,11 @@ cte_demand_sales as (
         date,
         count(distinct order_id) as orders,
         sum(sale_qty) as sale_qty,
-        sum(sale_amt) as sale_amt
-    from {{ref('v_fct_order_items')}}
+        sum(sale_cost) as sale_cost,
+        sum(sale_amt) as sale_amt,
+        sum(shipping) as shipping,
+        sum(tax) as tax
+    from {{ref('v_fct_orders')}}
     group by all
 ),
 cte_net_sales as (
@@ -54,6 +57,8 @@ select
     coalesce(orders, 0) as orders,
     coalesce(sale_qty, 0) as sale_qty,
     coalesce(sale_amt, 0) as sale_amt,
+    coalesce(shipping, 0) as shipping,
+    coalesce(tax, 0) as tax,
     coalesce(net_sale_qty, 0) as net_sale_qty,
     coalesce(net_sale_cost, 0) as net_sale_cost,
     coalesce(net_sale_amt, 0) as net_sale_amt,
