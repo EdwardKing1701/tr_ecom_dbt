@@ -56,6 +56,7 @@ select
     date,
     coalesce(orders, 0) as orders,
     coalesce(sale_qty, 0) as sale_qty,
+    coalesce(sale_cost, 0) as sale_cost,
     coalesce(sale_amt, 0) as sale_amt,
     coalesce(shipping, 0) as shipping,
     coalesce(tax, 0) as tax,
