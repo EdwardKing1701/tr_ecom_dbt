@@ -23,7 +23,7 @@ cte_budget_monthly as (
     select
         month_id,
         orders_budget,
-        upt_forecast * orders_budget as sale_qty_budget,
+        coalesce(sale_qty_budget, upt_forecast * orders_budget) as sale_qty_budget,
         sale_amt_budget,
         sessions_budget
     from {{ref('ecom_demand_budget')}}
