@@ -29,6 +29,8 @@ cte_comp_dates_override as (
         date as report_date,
         comparable_date as date
     from {{source('gsheets', 'intraday_comparison_override')}}
+    where
+        date in (select report_date from cte_report_date)
     union all
     select
         report_date,
