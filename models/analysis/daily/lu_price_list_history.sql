@@ -14,6 +14,7 @@ cte_price_list as (
         promo,
         notes,
         holds,
+        inventory_feed,
         source_file_name,
         coalesce(effective_date, try_to_date(regexp_replace(regexp_replace(regexp_replace(source_file_name, '^([^\\d]|\\d+%)*(\\d{1,2})\.(\\d{1,2})\.(\\d\\d).*$', '20\\4-\\2-\\3'), '-(\\d)-', '-0\\1-'), '-(\\d)$', '-0\\1'))) as effective_date,
         coalesce(price_list_type, iff(source_file_name ilike '%one site pricing%', 'standard', 'promo')) as price_list_type
@@ -38,6 +39,7 @@ select
     p1.price_category,
     p1.promo,
     p1.notes,
+    p1.inventory_feed,
     p1.holds
 from cte_standard_pricing p1
 left join cte_standard_pricing p2
