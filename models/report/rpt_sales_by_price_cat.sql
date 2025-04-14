@@ -33,7 +33,7 @@ cte_sales as (
     left join {{ref('lu_price_list_history')}} using (color)
     where
         to_date_type = 'TODAY'
-        and time_period in ('TY', 'LY', 'LW')
+        and time_period in ('TY', 'LY')
         and date between previous_day(current_date(), 'sa') - 6 and current_date() - 1
         and coalesce(effective_date, '1901-01-01') <= xfrm_date
         and coalesce(end_date, '2199-01-01') >= xfrm_date
