@@ -48,7 +48,7 @@ cte_sales_and_inv as (
         dmd_sales_retail_2wk,
         dmd_sales_retail_1wk,
         dmd_sales_retail_yest
-    from tr_prd_ecom_db.report.rpt_daily_inv_report_setup
+    from {{ref('rpt_daily_inv_report_setup')}}
 ),
 cte_inv_sfcc as (
     select
@@ -56,7 +56,7 @@ cte_inv_sfcc as (
         allocation_amount,
         ats,
         stock_level
-    from tr_prd_db_fivetran.salesforce_commerce_cloud.inventory_list_record
+    from {{source('sfcc', 'inventory_list_record')}}
     where
         inventory_list_id = 'dfs-inv-list'
         and not _fivetran_deleted
@@ -76,7 +76,7 @@ cte_sfcc_master as (
         c_search_keywords as keywords,
         c_cc_fabric_content as fabric_content,
         c_badge as badge
-    from tr_prd_db_fivetran.salesforce_commerce_cloud.product
+    from {{source('sfcc', 'product')}}
     where
         owning_catalog_id  = 'tr-master-catalog'
         and type_master
@@ -87,7 +87,7 @@ cte_sfcc_variant as (
         convert_timezone('America/Los_Angeles', creation_date)::date as created_date,
         convert_timezone('America/Los_Angeles', last_modified)::date as modified_date,
         online_flag_default as online_flag
-    from tr_prd_db_fivetran.salesforce_commerce_cloud.product
+    from {{source('sfcc', 'product')}}
     where
         owning_catalog_id  = 'tr-master-catalog'
         and type_variant is not null
@@ -104,7 +104,7 @@ cte_catalogue as (
         department,
         class,
         subclass
-    from tr_prd_ecom_db.analysis.v_dim_item
+    from {{ref('v_dim_item')}}
 ),
 cte_demand_sales_today as (
     select
@@ -112,8 +112,8 @@ cte_demand_sales_today as (
         sum(iff(date = current_date(), sale_qty, 0)) as dmd_sales_units_today,
         sum(iff(date = current_date(), sale_cost, 0)) as dmd_sales_cost_today,
         sum(iff(date = current_date(), sale_amt, 0)) as dmd_sales_retail_today
-    from tr_prd_ecom_db.analysis.v_fct_order_items
-    join tr_prd_ecom_db.analysis.v_dim_item using(itm_key)
+    from {{ref('v_fct_order_items')}}
+    join {{ref('v_dim_item')}} using(itm_key)
     where
         date = current_date()
     group by all
@@ -122,23 +122,23 @@ cte_new_arrival as (
     select distinct
         style,
         is_new_arrival
-    from tr_prd_ecom_db.analysis.lu_assigned_category
-    join tr_prd_ecom_db.analysis.dim_category using(category_id)
+    from {{ref('lu_assigned_category')}}
+    join {{ref('dim_category')}} using(category_id)
     where
         is_new_arrival
 ),
 cte_price_file as (
     select
-        style,
         color,
         price_list,
         sale_price,
         price_category,
         notes,
         holds
-    from tr_prd_ecom_db.analysis.lu_price_list_history
+    from {{ref('lu_price_list_history')}}
     where
-        price_to_date = '2199-01-01'
+        effective_date <= current_date()
+        and end_date >= current_date()
 )
 select
     sku,
@@ -232,7 +232,7 @@ left join cte_catalogue using(sku)
 left join cte_sfcc_master using(style)
 left join cte_sfcc_variant using(sku)
 left join cte_new_arrival using(style)
-left join cte_price_file using(style, color)
+left join cte_price_file using(color)
 where
     coalesce(dmd_sales_units_today, 0) <> 0
     or coalesce(dmd_sales_retail_1wk, 0) <> 0
