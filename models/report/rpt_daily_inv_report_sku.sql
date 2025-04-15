@@ -139,6 +139,27 @@ cte_price_file as (
     where
         effective_date <= current_date()
         and end_date >= current_date()
+),
+cte_item_selection as (
+    select
+        color
+    from cte_sales_and_inv
+    full join cte_demand_sales_today using(sku)
+    full join cte_inv_sfcc using(sku)
+    join {{ref('v_dim_item')}} using(sku)
+    group by all
+    having
+        sum(dmd_sales_units_today) <> 0
+        or sum(dmd_sales_retail_1wk) <> 0
+        or sum(dmd_sales_retail_2wk) <> 0
+        or sum(dmd_sales_retail_3wk) <> 0
+        or sum(dmd_sales_retail_4wk) <> 0
+        or sum(net_sales_units_1wk) <> 0
+        or sum(net_sales_units_2wk) <> 0
+        or sum(net_sales_units_3wk) <> 0
+        or sum(net_sales_units_4wk) <> 0
+        or sum(inventory_units) > 1
+        or sum(stock_level) <> 0
 )
 select
     sku,
@@ -233,15 +254,4 @@ left join cte_sfcc_master using(style)
 left join cte_sfcc_variant using(sku)
 left join cte_new_arrival using(style)
 left join cte_price_file using(color)
-where
-    coalesce(dmd_sales_units_today, 0) <> 0
-    or coalesce(dmd_sales_retail_1wk, 0) <> 0
-    or coalesce(dmd_sales_retail_2wk, 0) <> 0
-    or coalesce(dmd_sales_retail_3wk, 0) <> 0
-    or coalesce(dmd_sales_retail_4wk, 0) <> 0
-    or coalesce(net_sales_units_1wk, 0) <> 0
-    or coalesce(net_sales_units_2wk, 0) <> 0
-    or coalesce(net_sales_units_3wk, 0) <> 0
-    or coalesce(net_sales_units_4wk, 0) <> 0
-    or coalesce(inventory_units, 0) > 1
-    or coalesce(stock_level, 0) <> 0
+join cte_item_selection using(color)
