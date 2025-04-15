@@ -77,13 +77,13 @@ select
     date,
     hour,
     case
-        when orders_api is not null then 'api'
+        when orders_api is not null and coalesce(orders_api, 0) >= (coalesce(orders_robling, 0) * 0.75) then 'api'
         when orders_robling is not null then 'robling'
     end as data_source,
     coalesce(last_order_ts_api, last_order_ts) as last_order_ts,
-    coalesce(orders_api, orders_robling) as orders,
-    coalesce(sale_qty_api, sale_qty_robling) as sale_qty,
-    coalesce(sale_amt_api, sale_amt_robling) as sale_amt,
+    iff(data_source = 'api', orders_api, orders_robling) as orders,
+    iff(data_source = 'api', sale_qty_api, sale_qty_robling) as sale_qty,
+    iff(data_source = 'api', sale_amt_api, sale_amt_robling) as sale_amt,
     sessions,
     orders_forecast,
     sale_qty_forecast,
