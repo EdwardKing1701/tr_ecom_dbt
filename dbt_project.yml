@@ -44,6 +44,8 @@ models:
         +tags: "daily"
     report:
       schema: report
+      daily:
+        +tags: "daily"
     validation:
       schema: validation
       +tags: "daily"
