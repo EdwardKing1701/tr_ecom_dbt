@@ -35,9 +35,6 @@ models:
   +post-hook: '{{set_constraints()}}'
   +copy_grants: true
   tr_ecom_dbt:
-    stage:
-      schema: stage
-      +tags: "daily"
     analysis:
       schema: analysis
       daily:
