@@ -34,7 +34,7 @@ cte_sales as (
     where
         to_date_type = 'TODAY'
         and time_period in ('TY', 'LY')
-        and date between previous_day(current_date(), 'sa') - 6 and current_date()
+        and date between previous_day(current_date(), 'sa') - 6 and current_date() - 1
         and coalesce(effective_date, '1901-01-01') <= xfrm_date
         and coalesce(end_date, '2199-01-01') >= xfrm_date
     group by all
