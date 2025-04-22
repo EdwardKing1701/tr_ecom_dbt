@@ -21,6 +21,7 @@ sources:
     schema: dw_dwh
     tables:
         - name: dwh_d_prd_itm_lu
+        - name: dwh_f_curr_cst_itm_b
   - name: robling_tr
     database: robling_prd_db
     schema: dw_dwh_tr
