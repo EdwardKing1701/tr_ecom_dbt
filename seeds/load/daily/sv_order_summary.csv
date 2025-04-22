@@ -73,15 +73,13 @@
 2025-04-20,2025-04-21,Closed,2523,7234
 2025-04-21,2025-04-21,Closed,1326,3719
 2025-04-21,2025-04-22,Closed,1490,5233
-2025-04-21,,In Packing,1,2
-2025-04-21,,Packing Pending,538,1391
-2025-04-21,,Picking Pending,4,13
-2025-04-21,,Ship Confirm Pending,2,8
-2025-04-21,,Wave Pending,1,4
-2025-04-22,2025-04-22,Closed,79,264
-2025-04-22,,In Packing,1,1
-2025-04-22,,In Picking,301,650
-2025-04-22,,In Pool,155,388
-2025-04-22,,Packing Pending,431,1308
-2025-04-22,,Picking Pending,133,486
-2025-04-22,,Wave Pending,21,83
+2025-04-21,2025-04-22,Load Confirm Pending,65,206
+2025-04-21,,Packing Pending,480,1205
+2025-04-21,,Picking Pending,1,7
+2025-04-22,2025-04-22,Closed,93,310
+2025-04-22,,In Pool,265,634
+2025-04-22,,In Pool Pending,18,57
+2025-04-22,2025-04-22,Load Confirm Pending,2,7
+2025-04-22,,Packing Pending,742,1939
+2025-04-22,,Picking Pending,128,523
+2025-04-22,,Wave Pending,20,108
