@@ -6,6 +6,7 @@
 with
 cte_catalogue as (
     select
+        itm_key,
         sku as product_id,
         color,
         division,
@@ -39,11 +40,13 @@ select
     price_list,
     coalesce(price_category, 'REG') as price_category,
     sum(quantity) as sale_qty,
+    sum(quantity * current_cost) as sale_cost,
     sum(price_after_order_discount) as sale_amt
 from {{source('sfcc', 'order_product_item')}}
 join cte_orders using (order_id)
 left join cte_catalogue using (product_id)
 left join {{ref('lu_price_list_history')}} using (color)
+left join {{ref('v_fct_current_cost')}} using(itm_key)
 where
     coalesce(effective_date, '1901-01-01') <= order_date
     and coalesce(end_date, '2199-01-01') >= order_date
