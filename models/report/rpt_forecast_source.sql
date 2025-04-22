@@ -17,7 +17,7 @@ cte_forecast as (
         traffic_forecast as sessions_forecast,
         ratio_to_report(sessions_forecast) over (partition by month_id) as share_of_monthly_sessions_forecast
     from {{ref('ecom_demand_plan')}}
-    join {{ref('dim_date')}} using(date)
+    join {{ref('dim_date')}} using (date)
 ),
 cte_budget_monthly as (
     select
@@ -32,7 +32,7 @@ cte_budget_monthly as (
             month_id,
             sum(sale_qty_forecast) / nullifzero(sum(orders_forecast)) as upt_forecast
         from cte_forecast
-        join {{ref('dim_date')}} using(date)
+        join {{ref('dim_date')}} using (date)
         group by all
     ) using (month_id)
 ),
@@ -45,7 +45,7 @@ cte_budget_daily as (
         sale_amt_budget * share_of_monthly_sale_amt_forecast as sale_amt_budget,
         sessions_budget * share_of_monthly_sessions_forecast as sessions_budget
     from cte_budget_monthly
-    join cte_forecast using(month_id)
+    join cte_forecast using (month_id)
 ),
 cte_channel_forecast as (
     select
@@ -55,7 +55,7 @@ cte_channel_forecast as (
         ratio_to_report(sale_amt_forecast) over (partition by date) as share_of_daily_sale_amt_forecast,
         sale_amt_budget * share_of_daily_sale_amt_forecast as sale_amt_budget
     from {{ref('ecom_channel_plan')}}
-    left join cte_budget_daily using(date)
+    left join cte_budget_daily using (date)
 ),
 cte_all_forecast as (
     select
@@ -85,7 +85,7 @@ cte_all_forecast as (
         sale_amt_budget,
         sessions_budget
     from cte_forecast
-    left join cte_budget_daily using(date)
+    left join cte_budget_daily using (date)
 )
 select *
 from cte_all_forecast

@@ -113,7 +113,7 @@ cte_demand_sales_today as (
         sum(iff(date = current_date(), sale_cost, 0)) as dmd_sales_cost_today,
         sum(iff(date = current_date(), sale_amt, 0)) as dmd_sales_retail_today
     from {{ref('v_fct_order_items')}}
-    join {{ref('v_dim_item')}} using(itm_key)
+    join {{ref('v_dim_item')}} using (itm_key)
     where
         date = current_date()
     group by all
@@ -123,7 +123,7 @@ cte_new_arrival as (
         style,
         is_new_arrival
     from {{ref('lu_assigned_category')}}
-    join {{ref('dim_category')}} using(category_id)
+    join {{ref('dim_category')}} using (category_id)
     where
         is_new_arrival
 ),
@@ -144,9 +144,9 @@ cte_item_selection as (
     select
         color
     from cte_sales_and_inv
-    full join cte_demand_sales_today using(sku)
-    full join cte_inv_sfcc using(sku)
-    join {{ref('v_dim_item')}} using(sku)
+    full join cte_demand_sales_today using (sku)
+    full join cte_inv_sfcc using (sku)
+    join {{ref('v_dim_item')}} using (sku)
     group by all
     having
         sum(dmd_sales_units_today) <> 0
@@ -247,11 +247,11 @@ select
     dmd_sales_retail_today
 
 from cte_sales_and_inv
-full join cte_demand_sales_today using(sku)
-full join cte_inv_sfcc using(sku)
-left join cte_catalogue using(sku)
-left join cte_sfcc_master using(style)
-left join cte_sfcc_variant using(sku)
-left join cte_new_arrival using(style)
-left join cte_price_file using(color)
-join cte_item_selection using(color)
+full join cte_demand_sales_today using (sku)
+full join cte_inv_sfcc using (sku)
+left join cte_catalogue using (sku)
+left join cte_sfcc_master using (style)
+left join cte_sfcc_variant using (sku)
+left join cte_new_arrival using (style)
+left join cte_price_file using (color)
+join cte_item_selection using (color)

@@ -64,7 +64,7 @@ cte_demand_sales as (
         sum(iff(date between current_date() - 7 and current_date() - 1, sale_amt, 0)) as dmd_sales_retail_1wk,
         sum(iff(date = current_date() - 1, sale_amt, 0)) as dmd_sales_retail_yest
     from {{ref('v_fct_order_items')}}
-    join {{ref('v_dim_item')}} using(itm_key)
+    join {{ref('v_dim_item')}} using (itm_key)
     where
         date between current_date() - 28 and current_date() - 1
         and channel = '004:ECOM FULL PRICE'
@@ -128,6 +128,6 @@ select
     coalesce(dmd_sales_retail_yest, 0) as dmd_sales_retail_yest,
     current_timestamp() as inserted_ts
 from cte_items
-full join cte_net_sales using(sku)
-full join cte_demand_sales using(sku)
-full join cte_inventory using(sku)
+full join cte_net_sales using (sku)
+full join cte_demand_sales using (sku)
+full join cte_inventory using (sku)

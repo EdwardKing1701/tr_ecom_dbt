@@ -27,7 +27,7 @@ cte_sales as (
         sum(quantity) as sale_qty,
         sum(price_after_order_discount) as sale_amt
     from {{source('sfcc', 'order_product_item')}}
-    join cte_orders using(order_id)
+    join cte_orders using (order_id)
     where
         region = 'canada'
     group by all

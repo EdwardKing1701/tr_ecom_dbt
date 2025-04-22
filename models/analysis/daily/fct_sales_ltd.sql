@@ -26,6 +26,6 @@ select
     sum(price_after_order_discount) as sale_amt_ltd,
     current_timestamp() as inserted_ts
 from tr_prd_db_fivetran.salesforce_commerce_cloud.order_product_item
-join cte_orders using(order_id)
+join cte_orders using (order_id)
 group by all
 order by first_sale_date, itm_id

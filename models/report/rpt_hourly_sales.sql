@@ -46,7 +46,7 @@ cte_sales_api as (
         sum(quantity) as sale_qty_api,
         sum(price_after_order_discount) as sale_amt_api
     from {{source('sfcc', 'order_product_item')}}
-    join cte_orders using(order_id)
+    join cte_orders using (order_id)
     group by all
 ),
 cte_sessions as (
@@ -96,6 +96,6 @@ select
         else false
     end as is_complete_hour
 from cte_sales_robling
-full join cte_sales_api using(date, hour)
-full join cte_sessions using(date, hour)
-full join cte_forecast using(date, hour)
+full join cte_sales_api using (date, hour)
+full join cte_sessions using (date, hour)
+full join cte_forecast using (date, hour)

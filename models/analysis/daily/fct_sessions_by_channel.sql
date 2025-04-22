@@ -17,8 +17,8 @@ cte_analytics_channel as (
         sum(shipping) as shipping_unadjusted,
         sum(tax) as tax_unadjusted
     from {{ref('ga_channels')}}
-    full join {{ref('ga_items')}} using(date, channel)
-    left join {{ref('channel_correction')}} using(channel)
+    full join {{ref('ga_items')}} using (date, channel)
+    left join {{ref('channel_correction')}} using (channel)
     group by all
 ),
 cte_analytics_session as (

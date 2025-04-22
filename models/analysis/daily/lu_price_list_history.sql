@@ -18,8 +18,8 @@ cte_price_list as (
         coalesce(effective_date, try_to_date(regexp_replace(regexp_replace(regexp_replace(source_file_name, '^([^\\d]|\\d+%)*(\\d{1,2})\.(\\d{1,2})\.(\\d\\d).*$', '20\\4-\\2-\\3'), '-(\\d)-', '-0\\1-'), '-(\\d)$', '-0\\1'))) as effective_date,
         coalesce(price_list_type, iff(source_file_name ilike '%one site pricing%', 'standard', 'promo')) as price_list_type
     from {{source('load', 'price_lists')}}
-    left join {{ref('price_list_eff_date_override')}} using(source_file_name)
-    left join {{ref('price_list_type_override')}} using(source_file_name)
+    left join {{ref('price_list_eff_date_override')}} using (source_file_name)
+    left join {{ref('price_list_type_override')}} using (source_file_name)
 ),
 cte_standard_pricing as (
     select

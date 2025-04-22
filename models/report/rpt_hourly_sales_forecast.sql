@@ -46,7 +46,7 @@ cte_sales_hourly as (
         sum(sale_qty) as sale_qty_hourly,
         sum(sale_amt) as sale_amt_hourly
     from {{ref('v_fct_order_items')}}
-    join cte_comp_dates_override using(date)
+    join cte_comp_dates_override using (date)
     group by all
 ),
 cte_sessions_hourly as (
@@ -56,7 +56,7 @@ cte_sessions_hourly as (
         hour,
         sessions as sessions_hourly
     from {{ref('ga_hourly')}}
-    join cte_comp_dates_override using(date)
+    join cte_comp_dates_override using (date)
 ),
 cte_share_of_sales_by_date as (
     select
@@ -96,4 +96,4 @@ select
     avg_share_of_sale_amt * sale_amt_forecast_daily as sale_amt_forecast,
     avg_share_of_sessions * sessions_forecast_daily as sessions_forecast
 from cte_avg_share_of_sales
-join cte_forecast using(report_date)
+join cte_forecast using (report_date)
