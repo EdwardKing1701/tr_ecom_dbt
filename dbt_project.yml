@@ -54,6 +54,8 @@ seeds:
       schema: load
       daily:
         +tags: "daily"
+      mstr:
+        +tags: "mstr"
       hourly:
         +tags: "hourly"
       forecast:
