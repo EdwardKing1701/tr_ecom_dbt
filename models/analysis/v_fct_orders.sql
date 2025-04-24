@@ -32,5 +32,4 @@ where
     meas_cde in ('CO_ORDERED', 'DMD')
     and attr_col_2 is not null
     and meas_dt is not null
-    {# and itm_key <> 565 -- gift cards #}
 group by 1

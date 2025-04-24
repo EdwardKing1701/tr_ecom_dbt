@@ -26,4 +26,3 @@ from {{source('robling_merch', 'dv_dm_f_meas_il_b')}}
 natural left join cte_hour
 where
     meas_cde = 'CO_ORDERED'
-    {# and itm_key <> 565 -- gift cards #}
