@@ -57,3 +57,4 @@ select
     sum(iff(time_period = 'TY', spend_forecast, 0)) as spend_forecast
 from cte_kpi
 join cte_xfrm using (xfrm_date)
+group by all
