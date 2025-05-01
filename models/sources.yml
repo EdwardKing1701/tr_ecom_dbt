@@ -1,6 +1,11 @@
 version: 2
 
 sources:  
+  - name: load
+    database: tr_prd_ecom_db
+    schema: load
+    tables:
+      - name: price_lists
   - name: sfcc
     database: tr_prd_db_fivetran
     schema: salesforce_commerce_cloud
@@ -35,8 +40,8 @@ sources:
       - name: dv_dwh_d_tim_min_of_day_lu
       - name: dv_dm_f_meas_il_b
       - name: dv_dwh_d_prd_itm_lu
-  - name: load
-    database: tr_prd_ecom_db
-    schema: load
+  - name: robling_sftp_v
+    database: robling_prd_sftp_lnd_db
+    schema: dw_dwh_v
     tables:
-      - name: price_lists
+      - name: v_dwh_f_customers
