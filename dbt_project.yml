@@ -56,8 +56,6 @@ seeds:
         +tags: "daily"
       mstr:
         +tags: "mstr"
-      hourly:
-        +tags: "hourly"
       forecast:
         +tags: "forecast"
       weekly:
