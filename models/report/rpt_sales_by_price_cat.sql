@@ -7,6 +7,7 @@ with
 cte_sales_setup as (
     select
         date as xfrm_date,
+        channel,
         itm_key,
         sale_amt,
         sale_qty,
@@ -22,6 +23,7 @@ cte_sales as (
         class,
         price_category as price_category_original,
         price_list,
+        channel,
         coalesce(price_category, 'REG') as price_category,
         sum(sale_amt) as sale_amt,
         sum(sale_qty) as sale_qty,
