@@ -3,7 +3,7 @@
         materialized = 'view'
     )
 }}
-with
+{# with
 cte_last_updated as (
     select
         day_key,
@@ -24,5 +24,20 @@ select
     rcd_upd_ts as source_synced_ts
 from {{source('robling_tr', 'dwh_f_web_pln_d_b')}}
 natural join cte_last_updated
+where
+    channel = 'ECOM Total' #}
+
+select
+    date,
+    orders_forecast,
+    sale_qty_forecast,
+    sale_amt_forecast,
+    sessions_forecast,
+    orders_budget,
+    sale_qty_budget,
+    sale_amt_budget,
+    sessions_budget,
+    null as source_synced_ts
+from {{ref('rpt_forecast_source')}} 
 where
     channel = 'ECOM Total'

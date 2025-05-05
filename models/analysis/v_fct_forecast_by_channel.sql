@@ -3,7 +3,7 @@
         materialized = 'view'
     )
 }}
-with
+{# with
 cte_last_updated as (
     select
         day_key,
@@ -19,6 +19,18 @@ select
     max(rcd_upd_ts) as source_synced_ts
 from {{source('robling_tr', 'dwh_f_web_pln_d_b')}}
 natural join cte_last_updated
+left join {{ref('channel_correction')}} using (channel)
+where
+    channel <> 'ECOM Total'
+group by all #}
+
+select
+    date,
+    coalesce(channel_correction, channel) as channel,
+    sum(sale_amt_forecast) as forecast,
+    sum(sale_amt_budget) as budget,
+    null as source_synced_ts
+from {{ref('rpt_forecast_source')}}
 left join {{ref('channel_correction')}} using (channel)
 where
     channel <> 'ECOM Total'
