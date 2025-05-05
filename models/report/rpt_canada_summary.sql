@@ -42,3 +42,5 @@ select
     *
 from cte_sales
 natural full join cte_traffic
+where
+    date < current_date()
