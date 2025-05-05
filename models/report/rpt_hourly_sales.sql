@@ -68,7 +68,11 @@ cte_forecast as (
         orders_forecast,
         sale_qty_forecast,
         sale_amt_forecast,
-        sessions_forecast
+        sessions_forecast,
+        orders_budget,
+        sale_qty_budget,
+        sale_amt_budget,
+        sessions_budget
     from {{ref('rpt_hourly_sales_forecast')}}
     where
         date between current_date() - 2 and current_date()
@@ -89,6 +93,10 @@ select
     sale_qty_forecast,
     sale_amt_forecast,
     sessions_forecast,
+    orders_budget,
+    sale_qty_budget,
+    sale_amt_budget,
+    sessions_budget,
     case
         when data_source = 'robling' and orders > 2 then true
         when minute(last_order_ts) >= 55 then true

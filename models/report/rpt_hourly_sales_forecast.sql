@@ -85,7 +85,11 @@ cte_forecast as (
         orders_forecast as orders_forecast_daily,
         sale_qty_forecast as sale_qty_forecast_daily,
         sale_amt_forecast as sale_amt_forecast_daily,
-        sessions_forecast as sessions_forecast_daily
+        sessions_forecast as sessions_forecast_daily,
+        orders_budget as orders_budget_daily,
+        sale_qty_budget as sale_qty_budget_daily,
+        sale_amt_budget as sale_amt_budget_daily,
+        sessions_budget as sessions_budget_daily
     from {{ref('v_fct_forecast_by_day')}}
 )
 select
@@ -94,6 +98,10 @@ select
     avg_share_of_orders * orders_forecast_daily as orders_forecast,
     avg_share_of_sale_qty * sale_qty_forecast_daily as sale_qty_forecast,
     avg_share_of_sale_amt * sale_amt_forecast_daily as sale_amt_forecast,
-    avg_share_of_sessions * sessions_forecast_daily as sessions_forecast
+    avg_share_of_sessions * sessions_forecast_daily as sessions_forecast,
+    avg_share_of_orders * orders_budget_daily as orders_budget,
+    avg_share_of_sale_qty * sale_qty_budget_daily as sale_qty_budget,
+    avg_share_of_sale_amt * sale_amt_budget_daily as sale_amt_budget,
+    avg_share_of_sessions * sessions_budget_daily as sessions_budget
 from cte_avg_share_of_sales
 join cte_forecast using (report_date)
