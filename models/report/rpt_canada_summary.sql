@@ -14,19 +14,21 @@ cte_orders as (
                 convert_timezone('America/Los_Angeles', creation_date)
         end as order_ts,
         order_ts::date as order_date,
-        c_flow_experience_id as region
+        lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)) as region
 from {{source('sfcc', 'orders_history')}}
 where
     order_id like 'FL%'
+    and lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)) = 'canada'
 qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
 ),
 cte_sales as (
     select
-        order_date as date,
+        date,
         count(distinct order_id) as orders,
-        sum(quantity) as sale_qty,
-        sum(price_after_order_discount) as sale_amt
-    from {{source('sfcc', 'order_product_item')}}
+        sum(sale_qty) as sale_qty,
+        sum(sale_amt) as sale_amt,
+        sum(sale_amt) - sum(sale_cost) as gross_margin
+    from {{ref('v_fct_orders')}}
     join cte_orders using (order_id)
     where
         region = 'canada'
