@@ -19,6 +19,8 @@ cte_demand_sales as (
         sum(shipping) as shipping,
         sum(tax) as tax
     from {{ref('v_fct_orders')}}
+    where
+        date < current_date()
     group by all
 ),
 cte_net_sales as (
@@ -34,6 +36,8 @@ cte_net_sales as (
         return_cost,
         return_amt
     from {{ref('fct_net_sales')}}
+    where
+        date < current_date()
 ),
 cte_sessions as (
     select
