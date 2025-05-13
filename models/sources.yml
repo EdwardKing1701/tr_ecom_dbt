@@ -16,6 +16,8 @@ sources:
         - name: product
         - name: category
         - name: assigned_category
+        - name: payment_instrument
+        - name: order_payment_instrument
   - name: gsheets
     database: tr_prd_db_fivetran
     schema: google_sheets

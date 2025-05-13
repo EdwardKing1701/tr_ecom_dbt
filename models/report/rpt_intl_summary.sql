@@ -18,7 +18,7 @@ cte_orders as (
 from {{source('sfcc', 'orders_history')}}
 where
     order_id like 'FL%'
-    and lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)) = 'canada'
+    and lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)) is not null
 qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
 ),
 cte_sales as (
@@ -31,16 +31,17 @@ cte_sales as (
     from {{ref('v_fct_orders')}}
     join cte_orders using (order_id)
     group by all
-),
+)
+{# ,
 cte_traffic as (
     select
         date,
         sessions
     from {{ref('ga_canada')}}
-)
+) #}
 select
     *
 from cte_sales
-natural full join cte_traffic
+{# natural full join cte_traffic #}
 where
     date < current_date()
