@@ -31,17 +31,16 @@ cte_sales as (
     from {{ref('v_fct_orders')}}
     join cte_orders using (order_id)
     group by all
-)
-{# ,
+),
 cte_traffic as (
     select
         date,
         sessions
-    from {{ref('ga_canada')}}
-) #}
+    from {{ref('ga_international')}}
+)
 select
     *
 from cte_sales
-{# natural full join cte_traffic #}
+natural full join cte_traffic
 where
     date < current_date()
