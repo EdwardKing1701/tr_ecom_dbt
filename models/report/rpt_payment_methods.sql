@@ -36,8 +36,8 @@ cte_all_sfcc as (
     select
         *
     from cte_orders
-    join cte_order_payment using(order_id)
-    join cte_payment_instrument using(payment_instrument_id)
+    join cte_order_payment using (order_id)
+    join cte_payment_instrument using (payment_instrument_id)
 )
 select
     week_end_date as date,
@@ -50,8 +50,8 @@ select
     count(distinct order_id) as payments,
     sum(payment_amount) as payment_amount
 from cte_all_sfcc
-join {{ref('date_xfrm')}} using(xfrm_date)
-join {{ref('dim_date')}} using(date)
+join {{ref('date_xfrm')}} using (xfrm_date)
+join {{ref('dim_date')}} using (date)
 where
     to_date_type = 'TODAY'
     and time_period in ('TY', 'LY')

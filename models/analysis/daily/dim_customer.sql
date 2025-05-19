@@ -40,6 +40,6 @@ select
     sum(sale_qty) as sale_qty_ltd,
     sum(sale_amt) as sale_amt_ltd
 from cte_orders
-join cte_email_address using(customer_id)
+join cte_email_address using (customer_id)
 group by all
 order by email_address
