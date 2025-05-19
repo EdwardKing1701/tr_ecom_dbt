@@ -58,8 +58,6 @@ seeds:
         +tags: "mstr"
       forecast:
         +tags: "forecast"
-      weekly:
-        +tags: "weekly"
 
 data_tests:
   +copy_grants: true
