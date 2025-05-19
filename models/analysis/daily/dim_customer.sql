@@ -22,16 +22,22 @@ cte_orders as (
         trim(lower(attr_col_7)) as customer_id,
         attr_col_2 as order_id,
         attr_col_11 as order_type,
-        f_meas_rtl as sale_amt
+        f_meas_rtl as sale_amt,
+        f_meas_qty as sale_qty,
+        f_meas_cst as sale_cost
     from {{source('robling_merch', 'dv_dm_f_meas_il_b')}}
     where
         meas_cde = 'CO_ORDERED'
+        and meas_dt < current_date()
 )
 select
     email_address,
     array_agg(distinct customer_id) as customer_ids,
     min(date) as first_order_date,
     max(date) as last_order_date,
+    count(distinct order_id) as orders_ltd,
+    sum(sale_cost) as sale_cost_ltd,
+    sum(sale_qty) as sale_qty_ltd,
     sum(sale_amt) as sale_amt_ltd
 from cte_orders
 join cte_email_address using(customer_id)
