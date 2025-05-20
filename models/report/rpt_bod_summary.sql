@@ -7,6 +7,8 @@ with
 cte_calendar as (
     select
         date,
+        date as min_date,
+        date as max_date,
         week_id,
         month_id,
         quarter_id,
@@ -54,7 +56,9 @@ cte_kpi as (
         sessions_budget,
         net_sale_amt_budget,
         net_sale_cost_budget,
-        shipping_budget
+        shipping_budget,
+        net_sale_amt + shipping as net_sale_and_shipping_amt,
+        net_sale_amt_budget + shipping_budget as net_sale_and_shipping_amt_budget
     from {{ref('rpt_daily_kpi')}}
 )
 select
