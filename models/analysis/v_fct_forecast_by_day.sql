@@ -3,30 +3,18 @@
         materialized = 'view'
     )
 }}
-{# with
-cte_last_updated as (
+with
+cte_net_sales_budget as ( --adde to the first day of the month as the net sales budget is not reported daily
     select
-        day_key,
-        max(rcd_upd_ts) as rcd_upd_ts
-    from {{source('robling_tr', 'dwh_f_web_pln_d_b')}}
-    group by all
+        date,
+        net_sale_amt_budget,
+        net_sale_cost_budget,
+        shipping_budget
+    from {{ref('ecom_demand_budget')}}
+    join {{ref('dim_date')}} using (month_id)
+    where
+        day_in_month = 1
 )
-select
-    day_key as date,
-    f_web_fcst_co_ord_qty as orders_forecast,
-    f_web_fcst_co_ord_cnt as sale_qty_forecast,
-    f_web_fcst_co_ord_rtl as sale_amt_forecast,
-    f_web_fcst_trfc_cnt as sessions_forecast,
-    f_web_bdgt_co_ord_qty as orders_budget,
-    f_web_bdgt_co_ord_cnt as sale_qty_budget,
-    f_web_bdgt_co_ord_rtl as sale_amt_budget,
-    f_web_bdgt_trfc_cnt as sessions_budget,
-    rcd_upd_ts as source_synced_ts
-from {{source('robling_tr', 'dwh_f_web_pln_d_b')}}
-natural join cte_last_updated
-where
-    channel = 'ECOM Total' #}
-
 select
     date,
     orders_forecast,
@@ -37,7 +25,11 @@ select
     sale_qty_budget,
     sale_amt_budget,
     sessions_budget,
+    net_sale_amt_budget,
+    net_sale_cost_budget,
+    shipping_budget,
     null as source_synced_ts
-from {{ref('rpt_forecast_source')}} 
+from {{ref('rpt_forecast_source')}}
+left join cte_net_sales_budget using (date)
 where
     channel = 'ECOM Total'

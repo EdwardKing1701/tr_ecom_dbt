@@ -56,7 +56,10 @@ cte_forecast as (
         orders_budget,
         sale_qty_budget,
         sale_amt_budget,
-        sessions_budget
+        sessions_budget,
+        net_sale_amt_budget,
+        net_sale_cost_budget,
+        shipping_budget
     from {{ref('v_fct_forecast_by_day')}}
 )
 select
@@ -86,7 +89,10 @@ select
     coalesce(orders_budget, 0) as orders_budget,
     coalesce(sale_qty_budget, 0) as sale_qty_budget,
     coalesce(sale_amt_budget, 0) as sale_amt_budget,
-    coalesce(sessions_budget, 0) as sessions_budget
+    coalesce(sessions_budget, 0) as sessions_budget,
+    coalesce(net_sale_amt_budget, 0) as net_sale_amt_budget,
+    coalesce(net_sale_cost_budget, 0) as net_sale_cost_budget,
+    coalesce(shipping_budget, 0) as shipping_budget
 from cte_calendar
 natural left join cte_demand_sales
 natural left join cte_net_sales
