@@ -51,7 +51,10 @@ cte_kpi as (
         orders_budget,
         sale_qty_budget,
         sale_amt_budget,
-        sessions_budget
+        sessions_budget,
+        net_sale_amt_budget,
+        net_sale_cost_budget,
+        shipping_budget
     from {{ref('rpt_daily_kpi')}}
 )
 select
