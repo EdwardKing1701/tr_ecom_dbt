@@ -59,3 +59,5 @@ select
 from cte_calendar
 natural join cte_date_xfrm
 natural join cte_kpi
+where
+    date < current_date()
