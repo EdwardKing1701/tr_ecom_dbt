@@ -54,7 +54,8 @@ cte_kpi as (
         sessions_budget
     from {{ref('rpt_daily_kpi')}}
 )
-select *
+select
+    * exclude (xfrm_date)    
 from cte_calendar
 natural join cte_date_xfrm
 natural join cte_kpi
