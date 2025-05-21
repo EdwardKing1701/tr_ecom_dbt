@@ -29,7 +29,7 @@ cte_sales as (
         sum(sale_qty) as sale_qty,
         sum(sale_cost) as sale_cost
     from cte_sales_setup
-    join {{ref('v_dim_item')}} using (itm_key)
+    join {{ref('dim_item')}} using (itm_key)
     join {{ref('date_xfrm')}} using (xfrm_date)
     join {{ref('dim_date')}} using (date)
     left join {{ref('lu_price_list_history')}} using (color)

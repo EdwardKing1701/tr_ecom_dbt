@@ -1,6 +1,7 @@
 {{
     config(
-        materialized = 'view'
+        materialized = 'table',
+        pk = ['itm_key']
     )
 }}
 select
@@ -23,3 +24,4 @@ select
     sbc_id as subclass_id,
     sbc_desc as subclass
 from {{source('robling_merch', 'dv_dwh_d_prd_itm_lu')}}
+order by sku

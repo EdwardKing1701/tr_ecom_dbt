@@ -11,7 +11,7 @@ cte_catalogue as (
         color,
         division,
         class
-    from {{ref('v_dim_item')}}
+    from {{ref('dim_item')}}
 ),
 cte_orders as (
     select

@@ -2,11 +2,11 @@ with
 cte_test as (
     select
         count(distinct division) as data
-    from {{ref('v_dim_item')}}
+    from {{ref('dim_item')}}
 )
 select
     '{{this.name}}' as test_name,
-    'analysis.v_dim_item' as source_name,
+    'analysis.dim_item' as source_name,
     null as dimension,
     'More than 5 divisions exist' as description,
     null as source_synced_ts,

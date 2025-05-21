@@ -39,7 +39,7 @@ cte_catalogue as (
         department,
         class,
         subclass
-    from {{ref('v_dim_item')}}
+    from {{ref('dim_item')}}
 ),
 cte_price_category as (
     select

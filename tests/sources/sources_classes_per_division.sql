@@ -3,12 +3,12 @@ cte_test as (
     select
         division as dimension,
         count(distinct class) as data
-    from {{ref('v_dim_item')}}
+    from {{ref('dim_item')}}
     group by all
 )
 select
     '{{this.name}}' as test_name,
-    'analysis.v_dim_item' as source_name,
+    'analysis.dim_item' as source_name,
     dimension,
     'More than 50 classes in a division' as description,
     null as source_synced_ts,

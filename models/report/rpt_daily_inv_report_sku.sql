@@ -104,7 +104,7 @@ cte_catalogue as (
         department,
         class,
         subclass
-    from {{ref('v_dim_item')}}
+    from {{ref('dim_item')}}
 ),
 cte_demand_sales_today as (
     select
@@ -113,7 +113,7 @@ cte_demand_sales_today as (
         sum(iff(date = current_date(), sale_cost, 0)) as dmd_sales_cost_today,
         sum(iff(date = current_date(), sale_amt, 0)) as dmd_sales_retail_today
     from {{ref('v_fct_order_items')}}
-    join {{ref('v_dim_item')}} using (itm_key)
+    join {{ref('dim_item')}} using (itm_key)
     where
         date = current_date()
     group by all
@@ -146,7 +146,7 @@ cte_item_selection as (
     from cte_sales_and_inv
     full join cte_demand_sales_today using (sku)
     full join cte_inv_sfcc using (sku)
-    join {{ref('v_dim_item')}} using (sku)
+    join {{ref('dim_item')}} using (sku)
     group by all
     having
         sum(dmd_sales_units_today) <> 0
