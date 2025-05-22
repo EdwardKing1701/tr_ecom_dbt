@@ -15,6 +15,7 @@ cte_orders as (
     where
         meas_dt between current_date() - 7 and current_date() - 1
         and meas_cde = 'CO_ORDERED'
+        and coalesce(attr_col_11, '') <> 'Facebook'
 ),
 cte_data as (
     select
@@ -28,14 +29,14 @@ cte_data as (
 )
 select
     '{{this.name}}' as test_name,
-    'load.ga_items' as source_name,
+    'v_dwh_f_customers' as source_name,
     dimension,
-    'More than 2% of emails missing' as description,
+    'More than 1% of emails missing' as description,
     null as source_synced_ts,
     null as max_data_date,
     analysis.local_time(current_timestamp()) as tested_ts,
     data,
     null as stop_execution,
-    data < 0.02 as passed
+    data < 0.01 as passed
 from cte_data
 where not passed
