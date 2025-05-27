@@ -40,6 +40,12 @@ cte_spend as (
         spend_forecast
     from {{ref('fct_spend_by_channel')}}
 ),
+cte_channel_group as (
+    select
+        channel,
+        channel_group
+    from {{ref('dim_channel')}}
+),
 cte_year_id as (
     select
         date,
@@ -50,6 +56,7 @@ select
     date,
     year_id,
     channel,
+    coalesce(channel_group, '(N/A)') as channel_group,
     sessions,
     coalesce(engaged_sessions, 0) as engaged_sessions,
     coalesce(orders, 0) as orders,
@@ -72,3 +79,4 @@ from cte_channels
 natural full join cte_forecast
 natural full join cte_spend
 natural join cte_year_id
+natural left join cte_channel_group
