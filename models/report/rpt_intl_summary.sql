@@ -14,7 +14,7 @@ cte_orders as (
                 convert_timezone('America/Los_Angeles', creation_date)
         end as order_ts,
         order_ts::date as order_date,
-        replace(lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)), '-', '') as region
+        replace(lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)), '-', ' ') as region
 from {{source('sfcc', 'orders_history')}}
 where
     order_id like 'FL%'
