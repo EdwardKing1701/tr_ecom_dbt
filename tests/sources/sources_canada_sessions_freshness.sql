@@ -1,15 +1,17 @@
 with
 cte_test as (
     select
+        date as dimension,
         coalesce(sum(sessions), 0) as data
     from {{ref('ga_canada')}}
     where
-        date = current_date() - 1
+        date >= current_date() - 7
+    group by all
 )
 select
     '{{this.name}}' as test_name,
     'load.ga_canada' as source_name,
-    null as dimension,
+    dimension,
     'Canada sessions > 1,000' as description,
     null as source_synced_ts,
     null as max_data_date,

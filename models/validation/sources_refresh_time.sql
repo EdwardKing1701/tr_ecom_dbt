@@ -1,3 +1,9 @@
+{{
+    config(
+        materialized = 'table',
+        tags = ['daily']
+    )
+}}
 select
     '{{this.name}}' as test_name,
     null as source_name,
