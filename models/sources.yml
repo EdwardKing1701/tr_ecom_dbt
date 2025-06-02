@@ -6,6 +6,7 @@ sources:
     schema: load
     tables:
       - name: price_lists
+      - name: lexer_members
   - name: sfcc
     database: tr_prd_db_fivetran
     schema: salesforce_commerce_cloud
