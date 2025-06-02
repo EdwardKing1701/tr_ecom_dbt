@@ -14,4 +14,4 @@ select
     analysis.local_time(current_timestamp()) as tested_ts,
     null as data,
     null as stop_execution,
-    tested_ts > current_date() + 1 as passed
+    false as passed
