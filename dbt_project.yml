@@ -46,6 +46,8 @@ models:
     validation:
       schema: validation
       +tags: "daily"
+    load:
+      schema: load
 
 seeds:
   +copy_grants: true
