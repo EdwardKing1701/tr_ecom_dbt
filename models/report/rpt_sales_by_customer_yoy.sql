@@ -32,7 +32,8 @@ cte_customer as (
 cte_catalogue as (
     select
         itm_key,
-        color
+        color,
+        division
     from {{ref('dim_item')}}
 ),
 cte_price_category as (
@@ -54,6 +55,15 @@ cte_sales as (
         sale_cost,
         sale_amt
     from {{ref('v_fct_order_items')}}
+),
+cte_basket_gender as (
+    select
+        order_id,
+        sum(iff(division = 'TRBJ WOMENS', sale_qty, 0)) as womens_sale_qty,
+        sum(iff(division = 'TRBJ MENS', sale_qty, 0)) as mens_sale_qty
+    from cte_sales
+    join cte_catalogue using (itm_key)
+    group by all
 )
 select
     date,
@@ -63,6 +73,12 @@ select
         when xfrm_date = first_order_date then 'New'
         else 'Returning'
     end as customer_type,
+    case
+        when womens_sale_qty > 0 and mens_sale_qty > 0 then 'Mixed'
+        when womens_sale_qty > 0 then 'Women'
+        when mens_sale_qty > 0 then 'Men'
+        else '(N/A)'
+    end as basket_gender,
     order_id,
     customer_id,
     email_address,
@@ -85,4 +101,5 @@ join cte_calendar using (xfrm_date)
 join cte_catalogue using (itm_key)
 left join cte_price_category using (xfrm_date, color)
 left join cte_customer using (customer_id)
+left join cte_basket_gender using (order_id)
 group by all
