@@ -2,20 +2,4 @@
     "files.associations": {
         "*.sql": "jinja-sql"
     }
-      // optional: don't format models in `target/` dir
-    "**/target/**": "",
-    // I don't personally use these, but you can also have jinja work for `yaml` and `md` files
-    "**/tr_ecom_dbt/**/*.yaml": "jinja-yaml",
-     "**/tr_ecom_dbt/**/*.yml": "jinja-yaml",
-    "**/tr_ecom_dbt/**/docs/**/*.md": "jinja-md"
-
-    // the vscode-dbt docs say you may need this
-    
-    "terminal.integrated.fontFamily": "DejaVuSansMono Nerd Font"
-}"[jijna-sql]": {
-  "editor.defaultFormatter": "innoverio.vscode-dbt-power-user" 
-  "editor.formatOnSave": false //Optional, I prefer to format manually.
-}  
-"editor.quickSuggestions": {
-    "strings": true
-    }
+}
