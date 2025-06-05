@@ -4,7 +4,7 @@
     )
 }}
 select
-    customer_id::varchar as customer_id,
+    customer_id::varchar as lexer_customer_id,
     nullif(email, '') as email,
     nullif(user_id, '') as user_id,
     nullif(gender, '') as gender,
@@ -12,10 +12,10 @@ select
     nullif(generation, '') as generation,
     is_a_customer,
     first_order_date,
-    record,
+    record as lexer_record,
     nullif(listrak_record, '')::boolean as listrak_record,
     nullif(communication_opt_in, '')::boolean as communication_opt_in,
-    nullif(opt_in, '') as opt_in,
+    nullif(opt_in, '') as listrak_opt_in,
     nullif(opt_in_status, '') as opt_in_status,
     try_to_timestamp_ntz(subscribe_date___master_list) as subscribe_date___master_list,
     try_to_timestamp_ntz(unsubscribe_date___master_list) as unsubscribe_date___master_list,
