@@ -14,7 +14,7 @@ cte_calendar as (
     where
         to_date_type = 'TODAY'
         and time_period in ('TY', 'LY')
-        and date between '2025-03-30' and current_date() - 1
+        and date between '2025-03-30' and previous_day(current_date(), 'sa')
 ),
 cte_msrp_change as (
     select
