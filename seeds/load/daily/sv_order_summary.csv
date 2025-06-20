@@ -1,7 +1,4 @@
 ﻿creation_date,ship_date,status,orders,units
-2025-05-21,2025-05-21,Closed,1172,3189
-2025-05-21,2025-05-22,Closed,1389,3663
-2025-05-21,2025-05-23,Closed,12,39
 2025-05-22,2025-05-22,Closed,1439,3828
 2025-05-22,2025-05-23,Closed,1309,3475
 2025-05-22,2025-05-24,Closed,2,5
@@ -80,13 +77,19 @@
 2025-06-17,2025-06-17,Closed,1169,2719
 2025-06-17,2025-06-18,Closed,830,1840
 2025-06-18,2025-06-18,Closed,1784,4084
-2025-06-18,2025-06-19,Closed,154,343
-2025-06-18,,In Packing,1,4
-2025-06-18,,In Picking,1,7
-2025-06-18,,Packing Pending,209,490
-2025-06-18,,Picking Pending,56,129
-2025-06-18,,Wave Pending,117,256
-2025-06-19,,In Picking,2,13
-2025-06-19,,Packing Pending,6,37
-2025-06-19,,Picking Pending,20,51
-2025-06-19,,Wave Pending,204,452
+2025-06-18,2025-06-19,Closed,533,1215
+2025-06-18,2025-06-20,Closed,1,5
+2025-06-18,,Packing Pending,1,3
+2025-06-18,,Picking Pending,2,3
+2025-06-19,2025-06-19,Closed,1586,3728
+2025-06-19,2025-06-20,Closed,108,274
+2025-06-19,,In Packing,2,12
+2025-06-19,,In Picking,4,13
+2025-06-19,,Packing Pending,337,723
+2025-06-19,,Picking Pending,319,754
+2025-06-19,,Ship Confirm Pending,2,4
+2025-06-19,,Wave Pending,6,9
+2025-06-20,,In Pool,50,110
+2025-06-20,,Packing Pending,3,18
+2025-06-20,,Picking Pending,181,428
+2025-06-20,,Wave Pending,11,20
