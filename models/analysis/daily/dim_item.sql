@@ -22,6 +22,9 @@ select
     cls_id as class_id,
     cls_desc as class,
     sbc_id as subclass_id,
-    sbc_desc as subclass
+    sbc_desc as subclass,
+    row_number() over (partition by color order by sku) as color_sku_index,
+    row_number() over (partition by style order by sku) as style_sku_index,
+    current_timestamp() as inserted_ts
 from {{source('robling_merch', 'dv_dwh_d_prd_itm_lu')}}
-order by sku
+order by itm_key
