@@ -7,9 +7,9 @@
 select
     itm_key,
     itm_id as sku,
-    sty_id || '-' || color_id as color,
+    sty_id || '-' || color_num as color,
     sty_id as style,
-    color_id,
+    color_num as color_id,
     color_desc as color_desc,
     size_id,
     size_desc as size,
