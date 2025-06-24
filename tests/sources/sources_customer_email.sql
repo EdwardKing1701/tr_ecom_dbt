@@ -9,13 +9,13 @@ cte_sfcc_customer as (
 cte_orders as (
     select distinct
         meas_dt,
-        attr_col_7 as customer_id,
-        attr_col_2 as order_id
+        attr_varchar_col7 as customer_id,
+        co_id as order_id
     from {{source('robling_merch', 'dv_dm_f_meas_il_b')}}
     where
         meas_dt between current_date() - 7 and current_date() - 1
         and meas_cde = 'CO_ORDERED'
-        and coalesce(attr_col_11, '') <> 'Facebook'
+        and coalesce(attr_varchar_col11, '') <> 'Facebook'
 ),
 cte_data as (
     select

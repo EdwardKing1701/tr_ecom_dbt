@@ -19,9 +19,9 @@ cte_email_address as (
 cte_orders as (
     select
         meas_dt as date,
-        trim(lower(attr_col_7)) as customer_id,
-        attr_col_2 as order_id,
-        attr_col_11 as order_type,
+        trim(lower(attr_varchar_col7)) as customer_id,
+        co_id as order_id,
+        attr_varchar_col11 as order_type,
         f_meas_rtl as sale_amt,
         f_meas_qty as sale_qty,
         f_meas_cst as sale_cost
