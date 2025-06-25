@@ -25,6 +25,8 @@ cte_analytics_channel as (
     from {{ref('ga_channels_user_type')}}
     full join {{ref('ga_items')}} using (date, channel)
     left join {{ref('channel_correction')}} using (channel)
+    where
+        coalesce(user_type, '(not set)') <> '(not set)'
     group by all
 ),
 cte_analytics_session as (
