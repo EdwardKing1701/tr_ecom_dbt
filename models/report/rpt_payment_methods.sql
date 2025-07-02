@@ -12,7 +12,7 @@ cte_orders as (
                 creation_date::date
             else
                 convert_timezone('America/Los_Angeles', creation_date)::date
-        end as xfrm_date,
+        end as date,
         creation_date
 from {{source('sfcc', 'orders_history')}}
 qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
@@ -38,24 +38,32 @@ cte_all_sfcc as (
     from cte_orders
     join cte_order_payment using (order_id)
     join cte_payment_instrument using (payment_instrument_id)
+),
+cte_payments as (
+    select
+        date,
+        case
+            when payment_method in ('FLOW_HOSTED_CHECKOUT', 'GLOBALE') then 'International'
+            when payment_method = 'AMAZON_PAYMENTS' then 'Amazon'
+            when payment_method = 'AFTERPAY_PBI' then 'Afterpay'
+            when payment_method = 'DW_APPLE_PAY' then 'Apple Pay'
+            when payment_method = 'CREDIT_CARD' then initcap(replace(payment_cardcard_type, '_', ' '))
+            {# when c_paypal_origination is not null then payment_method || '-' || c_paypal_origination #}
+            else initcap(replace(payment_method, '_', ' '))
+        end as payment_method_name,
+        count(distinct order_id) as payments,
+        sum(payment_amount) as payment_amount
+    from cte_all_sfcc
+    join {{ref('dim_date')}} using (date)
+    where
+        date < current_date()
+    group by all
 )
 select
-    week_end_date as date,
-    time_period,
-    case
-        when payment_method = 'CREDIT_CARD' then upper(payment_cardcard_type)
-        when c_paypal_origination is not null then payment_method || '-' || c_paypal_origination
-        else payment_method
-    end as payment_method_name,
-    count(distinct order_id) as payments,
-    sum(payment_amount) as payment_amount
-from cte_all_sfcc
-join {{ref('date_xfrm')}} using (xfrm_date)
-join {{ref('dim_date')}} using (date)
-where
-    to_date_type = 'TODAY'
-    and time_period in ('TY', 'LY')
-    and year_id >= (select year_id - 1 from {{ref('dim_date')}} where date = current_date() - 1)
-    and year_id <= (select year_id from {{ref('dim_date')}} where date = current_date() - 1)
-    and date <= previous_day(current_date(), 'sa')
-group by all
+    date,
+    payment_method_name,
+    payment_method_group,
+    payments,
+    payment_amount
+from cte_payments
+left join {{ref('payment_method_group')}} using (payment_method_name)
