@@ -1,0 +1,13 @@
+﻿payment_method_name,payment_method_group
+Amex,Credit Card
+Discover,Credit Card
+Klarna,Buy Now Pay Later
+Mastercard,Credit Card
+Visa,Credit Card
+Paypal,Other
+Afterpay,Buy Now Pay Later
+Amazon,Other
+Apple Pay,Other
+International,Other
+Gift Certificate,Other
+Other,Other
