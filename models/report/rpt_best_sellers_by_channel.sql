@@ -11,7 +11,7 @@ cte_catalogue as (
         itm_desc,
         sty_id,
         sty_desc,
-        color_id,
+        color_num as color_id,
         color_desc,
         sbc_id,
         sbc_desc,
