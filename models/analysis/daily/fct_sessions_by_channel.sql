@@ -4,21 +4,24 @@
         pk = ['date', 'channel']
     )
 }}
+
+{# UPDATE REFS!!! #}
+
+
 with
 cte_analytics_channel as (
     select
         date,
-        coalesce(channel_correction, channel) as channel,
+        channel,
         sum(sessions) as sessions_unadjusted,
         sum(engaged_sessions) as engaged_sessions_unadjusted,
         sum(purchases) as orders_unadjusted,
-        sum(quantity) as sale_qty_unadjusted,
+        sum(coalesce(quantity, 0)) as sale_qty_unadjusted,
         sum(revenue) as sale_amt_unadjusted,
         sum(shipping) as shipping_unadjusted,
         sum(tax) as tax_unadjusted
-    from {{ref('ga_channels')}}
-    full join {{ref('ga_items')}} using (date, channel)
-    left join {{ref('channel_correction')}} using (channel)
+    from tr_dev_ecom_db.load.src_ga_channels
+    full join tr_dev_ecom_db.load.src_ga_items using (date, channel_original)
     group by all
 ),
 cte_analytics_session as (
@@ -26,7 +29,7 @@ cte_analytics_session as (
         date,
         coalesce(sessions, 0) as sessions_total,
         coalesce(engaged_sessions, 0) as engaged_sessions_total
-    from {{ref('ga_sessions')}}
+    from tr_dev_ecom_db.load.ga_sessions
 ),
 cte_demand_sales as (
     select
@@ -36,7 +39,7 @@ cte_demand_sales as (
         sum(sale_amt) as sale_amt_total,
         sum(shipping) as shipping_total,
         sum(tax) as tax_total
-    from {{ref('v_fct_orders')}}
+    from tr_dev_ecom_db.analysis.v_fct_orders
     group by all
 ),
 cte_adjusted_demand as (
@@ -60,9 +63,101 @@ cte_adjusted_demand as (
     from cte_analytics_channel
     natural join cte_demand_sales
     natural join cte_analytics_session
+),
+cte_user_type_setup as (
+    select
+        'New' as user_type
+    union all
+    select
+        'Returning' as user_type
+),
+cte_user_type as (
+    select
+        date,
+        channel,
+        case
+            when user_type = 'new' then 'New'
+            when user_type = 'established' then 'Returning'
+        end as user_type,
+        sum(sessions) as user_type_sessions,
+        sum(engaged_sessions) as user_type_engaged_sessions,
+        sum(purchases) as user_type_orders,
+        sum(coalesce(quantity, 0)) as user_type_sale_qty,
+        sum(revenue) as user_type_sale_amt,
+        sum(shipping) as user_type_shipping,
+        sum(tax) as user_type_tax
+    from tr_dev_ecom_db.load.src_ga_channels_user_type
+    full join tr_dev_ecom_db.load.src_ga_items_user_type using (date, channel_original, user_type)
+    where
+        user_type <> '(not set)'
+    group by all
+),
+cte_user_type_ratio as (
+    select
+        date,
+        channel,
+        user_type,
+        sessions,
+        engaged_sessions,
+        orders,
+        sale_qty,
+        sale_amt,
+        shipping,
+        tax,
+        sessions_unadjusted,
+        engaged_sessions_unadjusted,
+        orders_unadjusted,
+        sale_qty_unadjusted,
+        sale_amt_unadjusted,
+        shipping_unadjusted,
+        tax_unadjusted,
+        ratio_to_report(coalesce(user_type_sessions, 0)) over (partition by date, channel) as user_type_sessions_ratio,
+        ratio_to_report(coalesce(user_type_engaged_sessions, 0)) over (partition by date, channel) as user_type_engaged_sessions_ratio,
+        ratio_to_report(coalesce(user_type_orders, 0)) over (partition by date, channel) as user_type_orders_ratio,
+        ratio_to_report(coalesce(user_type_sale_qty, 0)) over (partition by date, channel) as user_type_sale_qty_ratio,
+        ratio_to_report(coalesce(user_type_sale_amt, 0)) over (partition by date, channel) as user_type_sale_amt_ratio,
+        ratio_to_report(coalesce(user_type_shipping, 0)) over (partition by date, channel) as user_type_shipping_ratio,
+        ratio_to_report(coalesce(user_type_tax, 0)) over (partition by date, channel) as user_type_tax_ratio
+    from cte_adjusted_demand
+    join cte_user_type_setup
+    left join cte_user_type using (date, channel, user_type)
 )
 select
-    *,
+    date,
+    channel,
+    user_type,
+    case
+        when sessions = 0 then 0
+        when user_type_sessions_ratio is null and sessions > 0 and user_type = 'Returning' then sessions
+        when user_type_sessions_ratio is not null then sessions * user_type_sessions_ratio
+    end as sessions,
+    case
+        when sale_amt = 0 then 0
+        when user_type_sale_amt_ratio is null and sale_amt > 0 and user_type = 'Returning' then sale_amt
+        when user_type_sale_amt_ratio is not null then sale_amt * user_type_sale_amt_ratio
+    end as sale_amt,
+    
+    -- sessions,
+    -- engaged_sessions,
+    -- orders,
+    -- sale_qty,
+    -- sale_amt,
+    -- shipping,
+    -- tax,
+    -- sessions_unadjusted,
+    -- engaged_sessions_unadjusted,
+    -- orders_unadjusted,
+    -- sale_qty_unadjusted,
+    -- sale_amt_unadjusted,
+    -- shipping_unadjusted,
+    -- tax_unadjusted,
+    -- user_type_sessions_ratio,
+    -- user_type_engaged_sessions_ratio,
+    -- user_type_orders_ratio,
+    -- user_type_sale_qty_ratio,
+    -- user_type_sale_amt_ratio,
+    -- user_type_shipping_ratio,
+    -- user_type_tax_ratio,
     current_timestamp() as inserted_ts
-from cte_adjusted_demand
-order by date, channel
+from cte_user_type_ratio
+order by date, channel, user_type

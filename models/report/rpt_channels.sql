@@ -8,21 +8,22 @@ cte_channels as (
     select
         date,
         channel,
-        sessions,
-        engaged_sessions,
-        orders,
-        sale_qty,
-        sale_amt,
-        shipping,
-        tax,
-        sessions_unadjusted,
-        engaged_sessions_unadjusted,
-        orders_unadjusted,
-        sale_qty_unadjusted,
-        sale_amt_unadjusted,
-        shipping_unadjusted,
-        tax_unadjusted
+        sum(sessions) as sessions,
+        sum(engaged_sessions) as engaged_sessions,
+        sum(orders) as orders,
+        sum(sale_qty) as sale_qty,
+        sum(sale_amt) as sale_amt,
+        sum(shipping) as shipping,
+        sum(tax) as tax,
+        sum(sessions_unadjusted) as sessions_unadjusted,
+        sum(engaged_sessions_unadjusted) as engaged_sessions_unadjusted,
+        sum(orders_unadjusted) as orders_unadjusted,
+        sum(sale_qty_unadjusted) as sale_qty_unadjusted,
+        sum(sale_amt_unadjusted) as sale_amt_unadjusted,
+        sum(shipping_unadjusted) as shipping_unadjusted,
+        sum(tax_unadjusted) as tax_unadjusted
     from {{ref('fct_sessions_by_channel')}}
+    group by all
 ),
 cte_forecast as (
     select
