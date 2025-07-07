@@ -20,8 +20,8 @@ cte_analytics_channel as (
         sum(revenue) as sale_amt_unadjusted,
         sum(shipping) as shipping_unadjusted,
         sum(tax) as tax_unadjusted
-    from tr_dev_ecom_db.load.src_ga_channels
-    full join tr_dev_ecom_db.load.src_ga_items using (date, channel_original)
+    from {{ref('src_ga_channels')}}
+    full join {{ref('src_ga_items')}} using (date, channel_original)
     group by all
 ),
 cte_analytics_session as (
@@ -29,7 +29,7 @@ cte_analytics_session as (
         date,
         coalesce(sessions, 0) as sessions_total,
         coalesce(engaged_sessions, 0) as engaged_sessions_total
-    from tr_dev_ecom_db.load.ga_sessions
+    from {{ref('ga_sessions')}}
 ),
 cte_demand_sales as (
     select
@@ -39,7 +39,7 @@ cte_demand_sales as (
         sum(sale_amt) as sale_amt_total,
         sum(shipping) as shipping_total,
         sum(tax) as tax_total
-    from tr_dev_ecom_db.analysis.v_fct_orders
+    from {{ref('v_fct_orders')}}
     group by all
 ),
 cte_adjusted_demand as (
@@ -86,8 +86,8 @@ cte_user_type as (
         sum(revenue) as user_type_sale_amt,
         sum(shipping) as user_type_shipping,
         sum(tax) as user_type_tax
-    from tr_dev_ecom_db.load.src_ga_channels_user_type
-    full join tr_dev_ecom_db.load.src_ga_items_user_type using (date, channel_original, user_type)
+    from {{ref('src_ga_channels_user_type')}}
+    full join {{ref('src_ga_items_user_type')}} using (date, channel_original, user_type)
     where
         user_type <> '(not set)'
     group by all
