@@ -164,13 +164,48 @@ select
         when user_type_tax_ratio is not null then tax * user_type_tax_ratio
         else 0
     end as tax,
-    -- sessions_unadjusted,
-    -- engaged_sessions_unadjusted,
-    -- orders_unadjusted,
-    -- sale_qty_unadjusted,
-    -- sale_amt_unadjusted,
-    -- shipping_unadjusted,
-    -- tax_unadjusted,
+    case
+        when sessions_unadjusted = 0 then 0
+        when user_type_sessions_ratio is null and sessions_unadjusted > 0 and user_type = 'Returning' then sessions_unadjusted
+        when user_type_sessions_ratio is not null then sessions_unadjusted * user_type_sessions_ratio
+        else 0
+    end as sessions_unadjusted,
+    case
+        when engaged_sessions_unadjusted = 0 then 0
+        when user_type_engaged_sessions_ratio is null and engaged_sessions_unadjusted > 0 and user_type = 'Returning' then engaged_sessions_unadjusted
+        when user_type_engaged_sessions_ratio is not null then engaged_sessions_unadjusted * user_type_engaged_sessions_ratio
+        else 0
+    end as engaged_sessions_unadjusted,
+    case
+        when orders_unadjusted = 0 then 0
+        when user_type_orders_ratio is null and orders_unadjusted > 0 and user_type = 'Returning' then orders_unadjusted
+        when user_type_orders_ratio is not null then orders_unadjusted * user_type_orders_ratio
+        else 0
+    end as orders_unadjusted,
+    case
+        when sale_qty_unadjusted = 0 then 0
+        when user_type_sale_qty_ratio is null and sale_qty_unadjusted > 0 and user_type = 'Returning' then sale_qty_unadjusted
+        when user_type_sale_qty_ratio is not null then sale_qty_unadjusted * user_type_sale_qty_ratio
+        else 0
+    end as sale_qty_unadjusted,
+    case
+        when sale_amt_unadjusted = 0 then 0
+        when user_type_sale_amt_ratio is null and sale_amt_unadjusted > 0 and user_type = 'Returning' then sale_amt_unadjusted
+        when user_type_sale_amt_ratio is not null then sale_amt_unadjusted * user_type_sale_amt_ratio
+        else 0
+    end as sale_amt_unadjusted,
+    case
+        when shipping_unadjusted = 0 then 0
+        when user_type_shipping_ratio is null and shipping_unadjusted > 0 and user_type = 'Returning' then shipping_unadjusted
+        when user_type_shipping_ratio is not null then shipping_unadjusted * user_type_shipping_ratio
+        else 0
+    end as shipping_unadjusted,
+    case
+        when tax_unadjusted = 0 then 0
+        when user_type_tax_ratio is null and tax_unadjusted > 0 and user_type = 'Returning' then tax_unadjusted
+        when user_type_tax_ratio is not null then tax_unadjusted * user_type_tax_ratio
+        else 0
+    end as tax_unadjusted,
     current_timestamp() as inserted_ts
 from cte_user_type_ratio
 order by date, channel, user_type
