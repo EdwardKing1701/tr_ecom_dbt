@@ -1,13 +1,9 @@
 {{
     config(
         materialized = 'table',
-        pk = ['date', 'channel']
+        pk = ['date', 'channel', 'user_type']
     )
 }}
-
-{# UPDATE REFS!!! #}
-
-
 with
 cte_analytics_channel as (
     select
@@ -21,7 +17,7 @@ cte_analytics_channel as (
         sum(shipping) as shipping_unadjusted,
         sum(tax) as tax_unadjusted
     from {{ref('src_ga_channels')}}
-    full join {{ref('src_ga_items')}} using (date, channel_original)
+    full join {{ref('src_ga_items')}} using (date, channel_original, channel)
     group by all
 ),
 cte_analytics_session as (
@@ -87,7 +83,7 @@ cte_user_type as (
         sum(shipping) as user_type_shipping,
         sum(tax) as user_type_tax
     from {{ref('src_ga_channels_user_type')}}
-    full join {{ref('src_ga_items_user_type')}} using (date, channel_original, user_type)
+    full join {{ref('src_ga_items_user_type')}} using (date, channel_original, channel, user_type)
     where
         user_type <> '(not set)'
     group by all
@@ -130,20 +126,44 @@ select
         when sessions = 0 then 0
         when user_type_sessions_ratio is null and sessions > 0 and user_type = 'Returning' then sessions
         when user_type_sessions_ratio is not null then sessions * user_type_sessions_ratio
+        else 0
     end as sessions,
+    case
+        when engaged_sessions = 0 then 0
+        when user_type_engaged_sessions_ratio is null and engaged_sessions > 0 and user_type = 'Returning' then engaged_sessions
+        when user_type_engaged_sessions_ratio is not null then engaged_sessions * user_type_engaged_sessions_ratio
+        else 0
+    end as engaged_sessions,
+    case
+        when orders = 0 then 0
+        when user_type_orders_ratio is null and orders > 0 and user_type = 'Returning' then orders
+        when user_type_orders_ratio is not null then orders * user_type_orders_ratio
+        else 0
+    end as orders,
+    case
+        when sale_qty = 0 then 0
+        when user_type_sale_qty_ratio is null and sale_qty > 0 and user_type = 'Returning' then sale_qty
+        when user_type_sale_qty_ratio is not null then sale_qty * user_type_sale_qty_ratio
+        else 0
+    end as sale_qty,
     case
         when sale_amt = 0 then 0
         when user_type_sale_amt_ratio is null and sale_amt > 0 and user_type = 'Returning' then sale_amt
         when user_type_sale_amt_ratio is not null then sale_amt * user_type_sale_amt_ratio
+        else 0
     end as sale_amt,
-    
-    -- sessions,
-    -- engaged_sessions,
-    -- orders,
-    -- sale_qty,
-    -- sale_amt,
-    -- shipping,
-    -- tax,
+    case
+        when shipping = 0 then 0
+        when user_type_shipping_ratio is null and shipping > 0 and user_type = 'Returning' then shipping
+        when user_type_shipping_ratio is not null then shipping * user_type_shipping_ratio
+        else 0
+    end as shipping,
+    case
+        when tax = 0 then 0
+        when user_type_tax_ratio is null and tax > 0 and user_type = 'Returning' then tax
+        when user_type_tax_ratio is not null then tax * user_type_tax_ratio
+        else 0
+    end as tax,
     -- sessions_unadjusted,
     -- engaged_sessions_unadjusted,
     -- orders_unadjusted,
@@ -151,13 +171,6 @@ select
     -- sale_amt_unadjusted,
     -- shipping_unadjusted,
     -- tax_unadjusted,
-    -- user_type_sessions_ratio,
-    -- user_type_engaged_sessions_ratio,
-    -- user_type_orders_ratio,
-    -- user_type_sale_qty_ratio,
-    -- user_type_sale_amt_ratio,
-    -- user_type_shipping_ratio,
-    -- user_type_tax_ratio,
     current_timestamp() as inserted_ts
 from cte_user_type_ratio
 order by date, channel, user_type
