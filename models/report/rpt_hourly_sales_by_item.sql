@@ -31,7 +31,9 @@ cte_order_items as (
 cte_items as (
     select
         sku,
+        size,
         color,
+        color_desc,
         style,
         style_desc,
         division,
@@ -65,6 +67,8 @@ select
     color,
     style,
     style_desc,
+    color_desc,
+    size,
     division,
     class,
     is_collection,
