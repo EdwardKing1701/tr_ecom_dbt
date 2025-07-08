@@ -27773,7 +27773,7 @@
 2025-07-05,Affiliates,established,135
 2025-07-05,Affiliates,new,415
 2025-07-05,Cross-network,new,9
-2025-07-05,Direct,established,286
+2025-07-05,Direct,established,288
 2025-07-05,Direct,new,928
 2025-07-05,Email,(not set),1
 2025-07-05,Email,established,272
@@ -27798,36 +27798,59 @@
 2025-07-05,Unassigned,(not set),2
 2025-07-05,Unassigned,established,4
 2025-07-05,Unassigned,new,28
-2025-07-06,Affiliates,,2
-2025-07-06,Affiliates,established,194
-2025-07-06,Affiliates,new,559
-2025-07-06,Cross-network,established,2
-2025-07-06,Cross-network,new,13
-2025-07-06,Direct,,7
-2025-07-06,Direct,established,415
-2025-07-06,Direct,new,1272
-2025-07-06,Email,,9
-2025-07-06,Email,established,430
-2025-07-06,Email,new,395
-2025-07-06,Mobile Push Notifications,established,419
-2025-07-06,Mobile Push Notifications,new,46
-2025-07-06,Organic Search,,3
-2025-07-06,Organic Search,established,103
-2025-07-06,Organic Search,new,389
-2025-07-06,Organic Shopping,established,1
-2025-07-06,Organic Shopping,new,2
+2025-07-06,Affiliates,(not set),2
+2025-07-06,Affiliates,established,237
+2025-07-06,Affiliates,new,591
+2025-07-06,Cross-network,new,10
+2025-07-06,Direct,(not set),2
+2025-07-06,Direct,established,468
+2025-07-06,Direct,new,1319
+2025-07-06,Email,established,454
+2025-07-06,Email,new,443
+2025-07-06,Mobile Push Notifications,established,447
+2025-07-06,Mobile Push Notifications,new,81
+2025-07-06,Organic Search,(not set),3
+2025-07-06,Organic Search,established,110
+2025-07-06,Organic Search,new,387
+2025-07-06,Organic Shopping,established,2
+2025-07-06,Organic Shopping,new,8
 2025-07-06,Organic Social,established,13
-2025-07-06,Organic Social,new,50
-2025-07-06,Paid Search,,17
-2025-07-06,Paid Search,established,454
-2025-07-06,Paid Search,new,1562
-2025-07-06,Paid Social,established,213
-2025-07-06,Paid Social,new,371
-2025-07-06,Referral,established,2
+2025-07-06,Organic Social,new,53
+2025-07-06,Paid Search,established,483
+2025-07-06,Paid Search,new,1686
+2025-07-06,Paid Social,established,227
+2025-07-06,Paid Social,new,407
+2025-07-06,Referral,established,1
 2025-07-06,Referral,new,4
-2025-07-06,SMS,,12
-2025-07-06,SMS,established,427
-2025-07-06,SMS,new,468
-2025-07-06,Unassigned,,51
-2025-07-06,Unassigned,established,79
-2025-07-06,Unassigned,new,58
+2025-07-06,SMS,(not set),8
+2025-07-06,SMS,established,447
+2025-07-06,SMS,new,495
+2025-07-06,Unassigned,(not set),2
+2025-07-06,Unassigned,established,2
+2025-07-06,Unassigned,new,29
+2025-07-07,Affiliates,established,109
+2025-07-07,Affiliates,new,195
+2025-07-07,Cross-network,established,2
+2025-07-07,Cross-network,new,19
+2025-07-07,Direct,established,177
+2025-07-07,Direct,new,648
+2025-07-07,Email,established,155
+2025-07-07,Email,new,167
+2025-07-07,Mobile Push Notifications,established,131
+2025-07-07,Mobile Push Notifications,new,3
+2025-07-07,Organic Search,,10
+2025-07-07,Organic Search,established,51
+2025-07-07,Organic Search,new,133
+2025-07-07,Organic Social,established,7
+2025-07-07,Organic Social,new,7
+2025-07-07,Paid Search,,4
+2025-07-07,Paid Search,established,231
+2025-07-07,Paid Search,new,709
+2025-07-07,Paid Social,established,100
+2025-07-07,Paid Social,new,124
+2025-07-07,Referral,established,8
+2025-07-07,SMS,established,141
+2025-07-07,SMS,new,154
+2025-07-07,Unassigned,,21
+2025-07-07,Unassigned,established,53
+2025-07-07,Unassigned,new,32
