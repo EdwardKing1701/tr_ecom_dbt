@@ -1,6 +1,18 @@
 with
 cte_test as (
-    select (select sum(sale_amt) from {{ref('v_fct_order_items')}} where date = current_date() - 1) / (select sum(sale_amt_forecast) from {{ref('v_fct_forecast_by_day')}} where date = current_date() - 1) - 1 as data
+    select coalesce((
+        select
+            sum(sale_amt)
+        from {{ref('v_fct_order_items')}}
+        where
+            date = current_date() - 1
+    ) / (
+        select
+            sum(sale_amt_forecast)
+        from {{ref('v_fct_forecast_by_day')}}
+        where
+            date = current_date() - 1
+    ) - 1, 1) as data
 )
 select
     '{{this.name}}' as test_name,

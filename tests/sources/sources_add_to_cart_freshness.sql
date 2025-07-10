@@ -3,9 +3,8 @@ cte_test as (
     select
         date as dimension,
         coalesce(sum(users), 0) as data
-    from {{ref('ga_add_to_cart_users')}}
-    where
-        date >= current_date() - 7
+    from {{ref('cte_source_freshness_date_range')}}
+    left join {{ref('ga_add_to_cart_users')}} using (date)
     group by all
 )
 select

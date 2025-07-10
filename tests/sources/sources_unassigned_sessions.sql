@@ -1,6 +1,18 @@
 with
 cte_test as (
-    select (select sum(sessions) from {{ref('ga_channels')}} where date = current_date() - 1 and channel = 'Unassigned') / (select sum(sessions) from {{ref('ga_channels')}} where date = current_date() - 1) as data
+    select coalesce((
+        select
+            sum(sessions)
+        from {{ref('ga_channels')}}
+        where
+            date = current_date() - 1 and channel = 'Unassigned'
+    ) / (
+        select
+            sum(sessions)
+        from {{ref('ga_channels')}}
+        where
+            date = current_date() - 1
+    ), 1) as data
 )
 select
     '{{this.name}}' as test_name,

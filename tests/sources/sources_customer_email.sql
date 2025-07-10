@@ -8,22 +8,22 @@ cte_sfcc_customer as (
 ),
 cte_orders as (
     select distinct
-        meas_dt,
+        meas_dt as date,
         attr_varchar_col7 as customer_id,
         co_id as order_id
     from {{source('robling_merch', 'dv_dm_f_meas_il_b')}}
     where
-        meas_dt between current_date() - 7 and current_date() - 1
-        and meas_cde = 'CO_ORDERED'
+        meas_cde = 'CO_ORDERED'
         and coalesce(attr_varchar_col11, '') <> 'Facebook'
 ),
 cte_data as (
     select
-        meas_dt as dimension,
+        date as dimension,
         count(*) as orders,
         count(email_address) as email_addresses,
         (orders - email_addresses) / nullifzero(orders) as data
-    from cte_orders
+    from {{ref('cte_source_freshness_date_range')}}
+    left join cte_orders using (date)
     left join cte_sfcc_customer using (customer_id)
     group by all
 )

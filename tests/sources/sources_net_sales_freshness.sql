@@ -2,9 +2,8 @@ with
 cte_test as (
     select
         coalesce(sum(net_sales_retail), 0) as data
-    from {{ref('mstr_net_sales')}}
-    where
-        date = current_date() - 1
+    from {{ref('cte_source_freshness_date_range')}}
+    left join {{ref('mstr_net_sales')}} using (date)
 )
 select
     '{{this.name}}' as test_name,
