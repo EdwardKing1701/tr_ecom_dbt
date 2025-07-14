@@ -18,6 +18,8 @@ cte_analytics_channel as (
         sum(tax) as tax_unadjusted
     from {{ref('src_ga_channels')}}
     full join {{ref('src_ga_items')}} using (date, channel_original, channel)
+    where
+        channel <> 'Unassigned'
     group by all
 ),
 cte_analytics_session as (
@@ -86,6 +88,7 @@ cte_user_type as (
     full join {{ref('src_ga_items_user_type')}} using (date, channel_original, channel, user_type)
     where
         user_type <> '(not set)'
+        and channel <> 'Unassigned'
     group by all
 ),
 cte_user_type_ratio as (
