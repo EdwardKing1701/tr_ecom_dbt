@@ -38,8 +38,8 @@ cte_items as (
         style_desc,
         division,
         class,
-        style_desc ilike any ('%trxbd%', '%sadie%', '%mr cut out flare jeans%', '%hr charlie lace up flare jeans%' , '%lr joey big t flare jeans%') as is_collection,
-        iff(is_collection, 'Bella Doña', '(N/A)') as collection_name
+        null as is_collection,
+        null as collection_name
     from {{ref('dim_item')}}
 ),
 cte_inventory as (
