@@ -1,7 +1,6 @@
 {{
     config(
-        materialized = 'table',
-        tags = ['daily']
+        materialized = 'table'
     )
 }}
 select
