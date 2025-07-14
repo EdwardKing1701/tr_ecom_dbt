@@ -37,15 +37,10 @@ models:
   tr_ecom_dbt:
     analysis:
       schema: analysis
-      daily:
-        +tags: "daily"
     report:
       schema: report
-      daily:
-        +tags: "daily"
     validation:
       schema: validation
-      +tags: "daily"
     load:
       schema: load
 
@@ -55,7 +50,6 @@ seeds:
     load:
       schema: load
       daily:
-        +tags: "daily"
       forecast:
         +tags: "forecast"
 
