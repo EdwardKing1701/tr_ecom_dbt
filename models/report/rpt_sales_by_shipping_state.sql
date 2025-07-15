@@ -8,7 +8,8 @@ cte_shipping_state as (
     select
         order_id,
         country_code,
-        state_code
+        state_code,
+        city
     from {{source('sfcc', 'order_shipment_address')}}
 ),
 cte_lu_state as (
@@ -38,7 +39,16 @@ select
         when subdivision_category is not null then state_code
         else '(N/A)'
     end as state_code,
-    coalesce(subdivision_category, '(N/A)') as subdivision_category,
+    case
+        when order_type in ('Facebook', 'International') then order_type
+        when subdivision_category is not null then subdivision_category
+        else '(N/A)'
+    end as subdivision_category,
+    case
+        when order_type in ('Facebook', 'International') then order_type
+        when subdivision_category is not null then city
+        else '(N/A)'
+    end as city,
     count(distinct order_id) as orders,
     sum(sale_amt) as sale_amt,
     sum(sale_qty) as sale_qty
