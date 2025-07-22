@@ -7,6 +7,9 @@ sources:
     tables:
       - name: price_lists
       - name: lexer_members
+      - name: retail_loyalty_manual_upload
+      - name: retail_loyalty_store_id
+      - name: retail_district_code
   - name: sfcc
     database: tr_prd_db_fivetran
     schema: salesforce_commerce_cloud
