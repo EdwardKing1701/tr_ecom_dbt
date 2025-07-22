@@ -16,9 +16,9 @@ cte_sales_setup as (
 ),
 cte_sales as (
     select
-        week_id,
         date,
         time_period,
+        to_date_type,
         division,
         class,
         price_category as price_category_original,
@@ -32,13 +32,10 @@ cte_sales as (
     join {{ref('dim_item')}} using (itm_key)
     join {{ref('date_xfrm')}} using (xfrm_date)
     join {{ref('dim_date')}} using (date)
-    left join {{ref('lu_price_list_history')}} using (color)
+    left join {{ref('v_price_list_history_by_day')}} using (date, color)
     where
-        to_date_type = 'TODAY'
+        to_date_type in ('TODAY', 'WTD', 'MTD', 'YTD')
         and time_period in ('TY', 'LY')
-        and date between previous_day(current_date(), 'sa') - 6 and current_date() - 1
-        and coalesce(effective_date, '1901-01-01') <= xfrm_date
-        and coalesce(end_date, '2199-01-01') >= xfrm_date
     group by all
 )
 select *
