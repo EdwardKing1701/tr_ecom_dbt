@@ -119,7 +119,7 @@ f_orders_combined AS (
             MIN(LOYALTY_OPTIN_DT) AS LOYALTY_OPTIN_DT --remove this once yotpo data is fixed to use first tier earn as the opt-in date
         FROM
            (Select * from ROBLING_PRD_SFTP_LND_DB.DW_DWH_V.V_DWH_F_CUSTOMERS a 
-        inner join  (select (Max(internal_id) OVER (Partition BY EMAIL_ADDRESS))as internal_id from ROBLING_PRD_SFTP_LND_DB.DW_DWH_V.V_DWH_F_CUSTOMERS)  b on a.internal_id = b.internal_id
+        --inner join  (select (Max(internal_id) OVER (Partition BY EMAIL_ADDRESS))as internal_id from ROBLING_PRD_SFTP_LND_DB.DW_DWH_V.V_DWH_F_CUSTOMERS)  b on a.internal_id = b.internal_id
          
            group by all) as CUST
             LEFT JOIN (
