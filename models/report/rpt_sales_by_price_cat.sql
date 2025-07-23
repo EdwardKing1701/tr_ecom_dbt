@@ -14,6 +14,14 @@ cte_sales_setup as (
         sale_cost
     from {{ref('v_fct_order_items')}}
 ),
+cte_price_history as (
+    select
+        date as xfrm_date,
+        color,
+        price_category,
+        price_list
+    from {{ref('v_price_list_history_by_day')}}
+),
 cte_sales as (
     select
         date,
@@ -32,7 +40,7 @@ cte_sales as (
     join {{ref('dim_item')}} using (itm_key)
     join {{ref('date_xfrm')}} using (xfrm_date)
     join {{ref('dim_date')}} using (date)
-    left join {{ref('v_price_list_history_by_day')}} using (date, color)
+    left join cte_price_history using (xfrm_date, color)
     where
         to_date_type in ('TODAY', 'WTD', 'MTD', 'YTD')
         and time_period in ('TY', 'LY')
