@@ -20,7 +20,7 @@ cte_price_history as (
         color,
         price_category,
         price_list
-    from {{ref('v_price_list_history_by_day')}}
+    from {{ref('lu_price_list_history_by_day')}}
 ),
 cte_sales as (
     select

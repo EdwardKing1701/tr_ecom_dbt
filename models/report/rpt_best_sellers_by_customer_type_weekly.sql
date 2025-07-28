@@ -47,7 +47,7 @@ cte_price_category as (
         color,
         date as xfrm_date,
         price_category
-    from {{ref('v_price_list_history_by_day')}}
+    from {{ref('lu_price_list_history_by_day')}}
 ),
 cte_calendar as (
     select

@@ -20,6 +20,8 @@ cte_price_list as (
     from {{source('load', 'price_lists')}}
     left join {{ref('price_list_eff_date_override')}} using (source_file_name)
     left join {{ref('price_list_type_override')}} using (source_file_name)
+    where
+        style_color is not null
 ),
 cte_standard_pricing as (
     select

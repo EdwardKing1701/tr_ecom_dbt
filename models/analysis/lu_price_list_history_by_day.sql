@@ -1,6 +1,7 @@
 {{
     config(
-        materialized = 'view'
+        materialized = 'table',
+        pk = ['date', 'color']
     )
 }}
 select
