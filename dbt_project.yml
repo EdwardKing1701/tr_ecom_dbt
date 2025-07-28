@@ -49,8 +49,6 @@ seeds:
   tr_ecom_dbt:
     load:
       schema: load
-    analysis:
-      schema: analysis
 
 data_tests:
   +copy_grants: true

@@ -40,7 +40,8 @@ select
     p1.price_category,
     p1.promo,
     p1.notes,
-    p1.holds
+    p1.holds,
+    current_timestamp() as inserted_ts
 from cte_standard_pricing p1
 left join cte_standard_pricing p2
     on p1.style_color = p2.style_color

@@ -60,7 +60,7 @@ cte_forecast as (
         net_sale_amt_budget,
         net_sale_cost_budget,
         shipping_budget
-    from {{ref('v_fct_forecast_by_day')}}
+    from {{ref('fct_forecast_by_day')}}
 )
 select
     date,

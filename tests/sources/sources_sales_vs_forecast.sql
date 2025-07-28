@@ -9,7 +9,7 @@ cte_test as (
     ) / (
         select
             sum(sale_amt_forecast)
-        from {{ref('v_fct_forecast_by_day')}}
+        from {{ref('fct_forecast_by_day')}}
         where
             date = current_date() - 1
     ) - 1, 1) as data

@@ -14,7 +14,8 @@ select
     price_category,
     promo,
     notes,
-    holds
+    holds,
+    current_timestamp() as inserted_ts
 from {{ref('dim_date')}}
 left join {{ref('lu_price_list_history')}}
     on date >= effective_date
@@ -22,3 +23,4 @@ left join {{ref('lu_price_list_history')}}
 where
     date <= current_date()
     and date >= (select min(effective_date) from {{ref('lu_price_list_history')}})
+order by date, color

@@ -90,7 +90,7 @@ cte_forecast as (
         sale_qty_budget as sale_qty_budget_daily,
         sale_amt_budget as sale_amt_budget_daily,
         sessions_budget as sessions_budget_daily
-    from {{ref('v_fct_forecast_by_day')}}
+    from {{ref('fct_forecast_by_day')}}
 )
 select
     report_date as date,

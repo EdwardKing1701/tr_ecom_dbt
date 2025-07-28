@@ -3,7 +3,7 @@ cte_test as (
     select
         coalesce(sum(sale_amt_forecast), 0) as data
     from {{ref('cte_source_freshness_date_range')}}
-    left join {{ref('v_fct_forecast_by_day')}} using (date)
+    left join {{ref('fct_forecast_by_day')}} using (date)
 )
 select
     '{{this.name}}' as test_name,

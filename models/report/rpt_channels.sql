@@ -31,7 +31,7 @@ cte_forecast as (
         channel,
         forecast,
         budget
-    from {{ref('v_fct_forecast_by_channel')}}
+    from {{ref('fct_forecast_by_channel')}}
 ),
 cte_spend as (
     select

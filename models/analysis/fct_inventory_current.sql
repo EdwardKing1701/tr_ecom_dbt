@@ -1,6 +1,6 @@
 {{
     config(
-        materialized = 'view',
+        materialized = 'table',
         pk = ['itm_key']
     )
 }}
@@ -26,7 +26,8 @@ select
     itm_key,
     allocation_amount,
     ats,
-    stock_level
+    stock_level,
+    current_timestamp() as inserted_ts
 from cte_sfcc_inventory
 join cte_itm_key using (sku)
 order by itm_key

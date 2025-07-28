@@ -27,7 +27,8 @@ select
     date,
     channel,
     coalesce(spend, 0) as spend,
-    coalesce(spend_forecast, 0) as spend_forecast
+    coalesce(spend_forecast, 0) as spend_forecast,
+    current_timestamp() as inserted_ts
 from cte_spend
 natural full join cte_forecast
 order by date, channel

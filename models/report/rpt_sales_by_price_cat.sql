@@ -21,30 +21,26 @@ cte_price_history as (
         price_category,
         price_list
     from {{ref('lu_price_list_history_by_day')}}
-),
-cte_sales as (
-    select
-        date,
-        time_period,
-        to_date_type,
-        division,
-        class,
-        price_category as price_category_original,
-        price_list,
-        channel,
-        coalesce(price_category, 'REG') as price_category,
-        sum(sale_amt) as sale_amt,
-        sum(sale_qty) as sale_qty,
-        sum(sale_cost) as sale_cost
-    from cte_sales_setup
-    join {{ref('dim_item')}} using (itm_key)
-    join {{ref('date_xfrm')}} using (xfrm_date)
-    join {{ref('dim_date')}} using (date)
-    left join cte_price_history using (xfrm_date, color)
-    where
-        to_date_type in ('TODAY', 'WTD', 'MTD', 'YTD')
-        and time_period in ('TY', 'LY')
-    group by all
 )
-select *
-from cte_sales
+select
+    date,
+    time_period,
+    to_date_type,
+    division,
+    class,
+    price_category as price_category_original,
+    price_list,
+    channel,
+    coalesce(price_category, 'REG') as price_category,
+    sum(sale_amt) as sale_amt,
+    sum(sale_qty) as sale_qty,
+    sum(sale_cost) as sale_cost
+from cte_sales_setup
+join {{ref('dim_item')}} using (itm_key)
+join {{ref('date_xfrm')}} using (xfrm_date)
+join {{ref('dim_date')}} using (date)
+left join cte_price_history using (xfrm_date, color)
+where
+    to_date_type in ('TODAY', 'WTD', 'MTD', 'YTD')
+    and time_period in ('TY', 'LY')
+group by all
