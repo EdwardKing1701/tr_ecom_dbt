@@ -1,7 +1,4 @@
 ﻿creation_date,ship_date,status,orders,units
-2025-06-28,2025-06-28,Closed,1072,3242
-2025-06-28,2025-06-29,Closed,1464,4130
-2025-06-28,2025-06-30,Closed,131,260
 2025-06-29,2025-06-29,Closed,79,695
 2025-06-29,2025-06-30,Closed,2539,7095
 2025-06-29,2025-07-01,Closed,2,3
@@ -82,9 +79,18 @@
 2025-07-25,,Packing Pending,1,15
 2025-07-25,,Picking Pending,1,1
 2025-07-26,2025-07-26,Closed,1309,4045
-2025-07-26,,In Pool,577,1338
-2025-07-26,,Packing Pending,344,956
-2025-07-26,,Picking Pending,657,2408
-2025-07-26,,Wave Pending,724,1730
-2025-07-27,,In Pool,269,783
-2025-07-27,,Picking Pending,3,33
+2025-07-26,2025-07-27,Closed,2281,6350
+2025-07-26,,Picking Pending,1,1
+2025-07-26,,Wave Pending,16,54
+2025-07-27,2025-07-27,Closed,988,3316
+2025-07-27,2025-07-28,Closed,121,404
+2025-07-27,,In Packing,2,8
+2025-07-27,,In Picking,281,570
+2025-07-27,,In Pool,8,41
+2025-07-27,,Packing Pending,423,1461
+2025-07-27,,Picking Pending,1266,3364
+2025-07-27,,Ship Confirm Pending,3,13
+2025-07-27,,Wave Pending,456,1271
+2025-07-28,,In Pool,79,235
+2025-07-28,,Picking Pending,148,490
+2025-07-28,,Wave Pending,44,152
