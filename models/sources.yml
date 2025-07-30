@@ -16,6 +16,7 @@ sources:
     tables:
         - name: orders_history
         - name: order_product_item
+        - name: order_shipment
         - name: order_shipment_address
         - name: inventory_list_record
         - name: product
