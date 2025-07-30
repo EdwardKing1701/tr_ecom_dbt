@@ -16,7 +16,8 @@ cte_sfcc_inventory as (
         product_id::varchar as sku,
         allocation_amount,
         ats,
-        stock_level
+        stock_level,
+        quantity_on_order
     from {{source('sfcc', 'inventory_list_record')}}
     where
         inventory_list_id = 'dfs-inv-list'
@@ -27,6 +28,7 @@ select
     allocation_amount,
     ats,
     stock_level,
+    quantity_on_order,
     current_timestamp() as inserted_ts
 from cte_sfcc_inventory
 join cte_itm_key using (sku)
