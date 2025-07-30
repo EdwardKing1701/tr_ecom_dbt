@@ -12,6 +12,8 @@ cte_orders as (
         site_id,
         status,
         creation_date,
+        convert_timezone('America/Los_Angeles', creation_date) as order_ts,
+        order_ts::date as order_date,
         c_poquser_agent,
         customer_id,
         c_ge_customer_currency_code,
@@ -82,6 +84,31 @@ cte_shipment_addresses as (
     {% if is_incremental() %}
     where _fivetran_synced >= (select dateadd('minute', -90, max(order_item_synced)) from {{ this }})
     {% endif %}
+),
+cte_cost_historical as (
+    select
+        itm_key,
+        sty_clr_code as color,
+        day_key as order_date,
+        stdcost as cost_historical
+    from {{source('robling_dwh', 'dwh_f_cst_itm_b')}}
+    where
+        cntry_code = 'USA'
+),
+cte_cost_current as (
+    select
+        itm_key,
+        stdcost as cost_current
+    from {{source('robling_dwh', 'dwh_f_curr_cst_itm_b')}}
+    where
+        cntry_code = 'USA'
+),
+cte_items as (
+    select
+        itm_id as sku,
+        itm_key,
+        sty_id || '-' || color_num as color
+    from {{source('robling_merch', 'dv_dwh_d_prd_itm_lu')}}
 )
 select
     order_item_id,
@@ -92,15 +119,15 @@ select
     invoice_no,
     status,
     export_status,
-    convert_timezone('America/Los_Angeles', creation_date) as order_ts,
-    order_ts::date as order_date,
+    order_ts,
+    order_date,
     case
         when order_id like 'FL%' then
             to_timestamp_tz(creation_date::timestamp_ntz)
         else
             convert_timezone('America/Los_Angeles', creation_date)
     end as demand_ts,
-    order_ts::date as demand_date,
+    demand_ts::date as demand_date,
     case
         when c_poquser_agent in ('Android', 'iPhone') then 'App'
         when order_id ilike 'fl%' then 'International'
@@ -122,31 +149,27 @@ select
     shipping_total,
     tax_total,
     shipping_total_tax,
+    itm_key,
     sku,
     base_price,
-    quantity,
-    gross_price,
-    net_price,
-    price_after_item_discount,
-    price_after_order_discount,
-    tax,
-    adjusted_tax,
+    quantity as sale_qty,
+    quantity * coalesce(cost_historical, cost_current, 0) as sale_cost,
+    price_after_order_discount as sale_amt,
+    price_after_item_discount - price_after_order_discount as order_discount,
+    net_price - price_after_item_discount as item_discount,
+    order_discount + item_discount as total_discount,
+    adjusted_tax as item_tax,
     bonus_product_line_item,
     gift,
     order_synced,
     order_item_synced,
     shipment_synced,
     shipment_address_synced
-    
-    -- Unused fields from cte_orders
-    -- product_sub_total,
-    -- product_total,
-    -- taxation,
-    -- merchandize_total_tax,
-    -- adjusted_merchandize_total_tax,
-    -- adjusted_shipping_total_tax,
 from cte_order_items
 natural join cte_orders
 natural left join cte_shipments
 natural left join cte_shipment_addresses
+natural left join cte_items
+natural left join cte_cost_historical
+natural left join cte_cost_current
 order by order_ts, order_id, shipment_id, order_item_id
