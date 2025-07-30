@@ -5,26 +5,18 @@
 }}
 with
 cte_orders as (
-    select
-        id as order_id,
-        case
-            when id like 'FL%' then
-                to_timestamp_tz(creation_date::timestamp_ntz)
-            else
-                convert_timezone('America/Los_Angeles', creation_date)
-        end as order_ts,
-        order_ts::date as order_date,
-        replace(lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)), '-', ' ') as region
-from {{source('sfcc', 'orders_history')}}
-where
-    order_id like 'FL%'
-    and lower(coalesce(c_flow_experience_id, c_ge_customer_shipping_country_name)) is not null
-qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
+    select distinct
+        order_id,
+        shipping_country as country_code,
+        order_date
+    from {{ref('stg_sfcc_orders')}}
+    where
+        order_type = 'International'
 ),
 cte_sales as (
     select
         date,
-        region,
+        country_code,
         count(distinct order_id) as orders,
         sum(sale_qty) as sale_qty,
         sum(sale_amt) as sale_amt,
@@ -36,12 +28,28 @@ cte_sales as (
 cte_traffic as (
     select
         date,
+        'Total' as country_code,
         sessions
     from {{ref('ga_international')}}
+),
+cte_country as (
+    select
+        country_code,
+        country_name
+    from {{ref('lu_country')}}
+
 )
 select
-    *
+    date,
+    country_code,
+    country_name,
+    coalesce(orders, 0) as orders,
+    coalesce(sale_qty, 0) as sale_qty,
+    coalesce(sale_amt, 0) as sale_amt,
+    coalesce(gross_margin, 0) as gross_margin,
+    coalesce(sessions, 0) as sessions
 from cte_sales
 natural full join cte_traffic
+natural left join cte_country
 where
     date < current_date()
