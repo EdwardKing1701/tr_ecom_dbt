@@ -4,27 +4,6 @@
     )
 }}
 with
-{# cte_orders as (
-    select distinct
-        order_id,
-        shipping_country as country_code,
-        order_date
-    from {{ref('stg_sfcc_orders')}}
-    where
-        order_type = 'International'
-),
-cte_sales_total as (
-    select
-        date,
-        'Total' as country_code,
-        count(distinct order_id) as orders,
-        sum(sale_qty) as sale_qty,
-        sum(sale_amt) as sale_amt,
-        sum(sale_amt) - sum(sale_cost) as gross_margin
-    from {{ref('v_fct_orders')}}
-    join cte_orders using (order_id)
-    group by all
-), #}
 cte_sales_total as (
     select
         demand_date as date,
