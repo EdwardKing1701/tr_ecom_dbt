@@ -11,7 +11,7 @@ select
     '{{this.name}}' as test_name,
     'load.ga_international_by_country' as source_name,
     dimension,
-    'Canada sessions > 1,000' as description,
+    'International by country sessions > 1,000' as description,
     null as source_synced_ts,
     null as max_data_date,
     analysis.local_time(current_timestamp()) as tested_ts,

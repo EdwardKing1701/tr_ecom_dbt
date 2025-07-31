@@ -25,19 +25,26 @@ cte_sales as (
     join cte_orders using (order_id)
     group by all
 ),
-cte_traffic as (
+cte_traffic_total as (
     select
         date,
         'Total' as country_code,
         sessions
     from {{ref('ga_international')}}
 ),
+cte_traffic_by_country as (
+    select
+        date,
+        country_code,
+        sessions
+    from {{ref('ga_international_by_country')}}
+
+),
 cte_country as (
     select
         country_code,
         country_name
     from {{ref('lu_country')}}
-
 )
 select
     date,
@@ -49,7 +56,8 @@ select
     coalesce(gross_margin, 0) as gross_margin,
     coalesce(sessions, 0) as sessions
 from cte_sales
-natural full join cte_traffic
+natural left join cte_traffic_by_country
+natural full join cte_traffic_total
 natural left join cte_country
 where
     date < current_date()
