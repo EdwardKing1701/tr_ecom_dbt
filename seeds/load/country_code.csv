@@ -25,7 +25,7 @@ BZ,BLZ,Belize
 BJ,BEN,Benin
 BM,BMU,Bermuda
 BT,BTN,Bhutan
-BO,BOL,"Bolivia, Plurinational State of"
+BO,BOL,Bolivia
 BQ,BES,"Bonaire, Sint Eustatius and Saba"
 BA,BIH,Bosnia and Herzegovina
 BW,BWA,Botswana
@@ -117,11 +117,11 @@ JO,JOR,Jordan
 KZ,KAZ,Kazakhstan
 KE,KEN,Kenya
 KI,KIR,Kiribati
-KP,PRK,"Korea, Democratic People's Republic of"
-KR,KOR,"Korea, Republic of"
+KP,PRK,North Korea
+KR,KOR,South Korea
 KW,KWT,Kuwait
 KG,KGZ,Kyrgyzstan
-LA,LAO,Lao People's Democratic Republic
+LA,LAO,Laos
 LV,LVA,Latvia
 LB,LBN,Lebanon
 LS,LSO,Lesotho
@@ -143,8 +143,8 @@ MR,MRT,Mauritania
 MU,MUS,Mauritius
 YT,MYT,Mayotte
 MX,MEX,Mexico
-FM,FSM,"Micronesia, Federated States of"
-MD,MDA,"Moldova, Republic of"
+FM,FSM,Micronesia
+MD,MDA,Moldova
 MC,MCO,Monaco
 MN,MNG,Mongolia
 ME,MNE,Montenegro
@@ -155,7 +155,7 @@ MM,MMR,Myanmar
 NA,NAM,Namibia
 NR,NRU,Nauru
 NP,NPL,Nepal
-NL,NLD,"Netherlands, Kingdom of the"
+NL,NLD,Netherlands
 NC,NCL,New Caledonia
 NZ,NZL,New Zealand
 NI,NIC,Nicaragua
@@ -169,7 +169,7 @@ NO,NOR,Norway
 OM,OMN,Oman
 PK,PAK,Pakistan
 PW,PLW,Palau
-PS,PSE,"Palestine, State of"
+PS,PSE,Palestine
 PA,PAN,Panama
 PG,PNG,Papua New Guinea
 PY,PRY,Paraguay
@@ -216,9 +216,9 @@ SJ,SJM,Svalbard and Jan Mayen
 SE,SWE,Sweden
 CH,CHE,Switzerland
 SY,SYR,Syrian Arab Republic
-TW,TWN,"Taiwan, Province of China"
+TW,TWN,Taiwan
 TJ,TJK,Tajikistan
-TZ,TZA,"Tanzania, United Republic of"
+TZ,TZA,Tanzania
 TH,THA,Thailand
 TL,TLS,Timor-Leste
 TG,TGO,Togo
@@ -233,13 +233,13 @@ TV,TUV,Tuvalu
 UG,UGA,Uganda
 UA,UKR,Ukraine
 AE,ARE,United Arab Emirates
-GB,GBR,United Kingdom of Great Britain and Northern Ireland
+GB,GBR,United Kingdom
 US,USA,United States of America
 UM,UMI,United States Minor Outlying Islands
 UY,URY,Uruguay
 UZ,UZB,Uzbekistan
 VU,VUT,Vanuatu
-VE,VEN,"Venezuela, Bolivarian Republic of"
+VE,VEN,Venezuela
 VN,VNM,Viet Nam
 VG,VGB,Virgin Islands (British)
 VI,VIR,Virgin Islands (U.S.)
