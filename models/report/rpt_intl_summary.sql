@@ -18,6 +18,13 @@ cte_sales_total as (
         and status <> 'cancelled'
     group by all
 ),
+cte_traffic_total as (
+    select
+        date,
+        'Total' as country_code,
+        sessions
+    from {{ref('ga_international')}}
+),
 cte_sales_by_country as (
     select
         demand_date as date,
@@ -30,13 +37,6 @@ cte_sales_by_country as (
     where
         order_type = 'International'
     group by all
-),
-cte_traffic_total as (
-    select
-        date,
-        'Total' as country_code,
-        sessions
-    from {{ref('ga_international')}}
 ),
 cte_traffic_by_country as (
     select
@@ -62,9 +62,24 @@ select
     coalesce(gross_margin, 0) as gross_margin,
     coalesce(sessions, 0) as sessions
 from cte_sales_total
-natural full join cte_sales_by_country
-natural full join cte_traffic_total
-natural full join cte_traffic_by_country
-natural left join cte_country
+full join cte_traffic_total using (date, country_code)
+left join cte_country using (country_code)
+where
+    date < current_date()
+
+union all
+
+select
+    date,
+    country_code,
+    country_name,
+    coalesce(orders, 0) as orders,
+    coalesce(sale_qty, 0) as sale_qty,
+    coalesce(sale_amt, 0) as sale_amt,
+    coalesce(gross_margin, 0) as gross_margin,
+    coalesce(sessions, 0) as sessions
+from cte_sales_by_country
+full join cte_traffic_by_country using (date, country_code)
+left join cte_country using (country_code)
 where
     date < current_date()
