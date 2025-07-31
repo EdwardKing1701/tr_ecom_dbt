@@ -4,7 +4,7 @@
     )
 }}
 with
-cte_orders as (
+{# cte_orders as (
     select distinct
         order_id,
         shipping_country as country_code,
@@ -13,16 +13,43 @@ cte_orders as (
     where
         order_type = 'International'
 ),
-cte_sales as (
+cte_sales_total as (
     select
         date,
-        country_code,
+        'Total' as country_code,
         count(distinct order_id) as orders,
         sum(sale_qty) as sale_qty,
         sum(sale_amt) as sale_amt,
         sum(sale_amt) - sum(sale_cost) as gross_margin
     from {{ref('v_fct_orders')}}
     join cte_orders using (order_id)
+    group by all
+), #}
+cte_sales_total as (
+    select
+        demand_date as date,
+        'Total' as country_code,
+        count(distinct order_id) as orders,
+        sum(sale_qty) as sale_qty,
+        sum(sale_amt) as sale_amt,
+        sum(sale_amt) - sum(sale_cost) as gross_margin
+    from {{ref('stg_sfcc_orders')}}
+    where
+        order_type = 'International'
+        and status <> 'cancelled'
+    group by all
+),
+cte_sales_by_country as (
+    select
+        demand_date as date,
+        shipping_country as country_code,
+        count(distinct order_id) as orders,
+        sum(sale_qty) as sale_qty,
+        sum(sale_amt) as sale_amt,
+        sum(sale_amt) - sum(sale_cost) as gross_margin
+    from {{ref('stg_sfcc_orders')}}
+    where
+        order_type = 'International'
     group by all
 ),
 cte_traffic_total as (
@@ -55,9 +82,10 @@ select
     coalesce(sale_amt, 0) as sale_amt,
     coalesce(gross_margin, 0) as gross_margin,
     coalesce(sessions, 0) as sessions
-from cte_sales
-natural left join cte_traffic_by_country
+from cte_sales_total
+natural full join cte_sales_by_country
 natural full join cte_traffic_total
+natural full join cte_traffic_by_country
 natural left join cte_country
 where
     date < current_date()
