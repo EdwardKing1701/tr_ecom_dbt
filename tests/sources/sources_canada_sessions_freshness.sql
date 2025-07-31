@@ -4,12 +4,12 @@ cte_test as (
         date as dimension,
         coalesce(sum(sessions), 0) as data
     from {{ref('cte_source_freshness_date_range')}}
-    left join {{ref('ga_canada')}} using (date)
+    left join {{ref('ga_international_by_country')}} using (date)
     group by all
 )
 select
     '{{this.name}}' as test_name,
-    'load.ga_canada' as source_name,
+    'load.ga_international_by_country' as source_name,
     dimension,
     'Canada sessions > 1,000' as description,
     null as source_synced_ts,

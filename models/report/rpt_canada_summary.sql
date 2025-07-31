@@ -36,7 +36,7 @@ cte_traffic as (
     select
         date,
         sessions
-    from {{ref('ga_canada')}}
+    from {{ref('ga_international_by_country')}}
 )
 select
     *
