@@ -4,22 +4,6 @@
     )
 }}
 with
-cte_orders as (
-    select
-        id as order_id,
-        case
-            when id like 'FL%' then
-                to_timestamp_tz(creation_date::timestamp_ntz)
-            else
-                convert_timezone('America/Los_Angeles', creation_date)
-        end as order_ts,
-        order_ts::date as order_date
-from {{source('sfcc', 'orders_history')}}
-where
-    order_date = current_date()
-    and order_ts <= current_timestamp()
-qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
-),
 cte_sales_robling as (
     select
         date,
@@ -39,14 +23,16 @@ cte_sales_robling as (
 ),
 cte_sales_api as (
     select
-        order_date as date,
-        hour(order_ts) as hour,
-        max(iff(order_id like 'FL%', null, order_ts)) as last_order_ts_api,
+        demand_date as date,
+        hour(demand_ts) as hour,
+        max(iff(order_type = 'International', null, demand_ts)) as last_order_ts_api,
         count(distinct order_id) as orders_api,
-        sum(quantity) as sale_qty_api,
-        sum(price_after_order_discount) as sale_amt_api
-    from {{source('sfcc', 'order_product_item')}}
-    join cte_orders using (order_id)
+        sum(sale_qty) as sale_qty_api,
+        sum(sale_amt) as sale_amt_api
+    from {{ref('stg_sfcc_orders')}}
+    where
+        demand_date = current_date()
+        and demand_ts <= current_timestamp()
     group by all
 ),
 cte_sessions as (

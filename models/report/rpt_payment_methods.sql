@@ -5,17 +5,10 @@
 }}
 with
 cte_orders as (
-    select
-        id as order_id,
-        case
-            when id like 'FL%' then
-                creation_date::date
-            else
-                convert_timezone('America/Los_Angeles', creation_date)::date
-        end as date,
-        creation_date
-from {{source('sfcc', 'orders_history')}}
-qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
+    select distinct
+        order_id,
+        demand_date as date
+    from {{ref('stg_sfcc_orders')}}
 ),
 cte_payment_instrument as (
     select

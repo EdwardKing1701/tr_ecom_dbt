@@ -4,30 +4,6 @@
     )
 }}
 with
-cte_orders as (
-    select
-        id as order_id,
-        case
-            when id like 'FL%' then
-                to_timestamp_tz(creation_date::timestamp_ntz)
-            else
-                convert_timezone('America/Los_Angeles', creation_date)
-        end as order_ts,
-        order_ts::date as order_date
-from {{source('sfcc', 'orders_history')}}
-where
-    order_date = current_date()
-    and order_ts <= current_timestamp()
-qualify row_number() over (partition by id order by _fivetran_synced desc) = 1
-),
-cte_order_items as (
-    select
-        order_id,
-        product_id as sku,
-        quantity as sale_qty,
-        price_after_order_discount as sale_amt
-    from {{source('sfcc', 'order_product_item')}}
-),
 cte_items as (
     select
         sku,
@@ -58,8 +34,10 @@ cte_sales_by_item as (
         sku,
         sum(sale_qty) as sale_qty,
         sum(sale_amt) as sale_amt
-    from cte_order_items
-    natural join cte_orders
+    from {{ref('stg_sfcc_orders')}}
+    where
+        demand_date = current_date()
+        and demand_ts <= current_timestamp()
     group by all
 )
 select
