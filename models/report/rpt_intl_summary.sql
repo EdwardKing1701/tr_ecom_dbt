@@ -55,7 +55,7 @@ cte_country as (
 select
     date,
     country_code,
-    country_name,
+    'Total' as country_name,
     coalesce(orders, 0) as orders,
     coalesce(sale_qty, 0) as sale_qty,
     coalesce(sale_amt, 0) as sale_amt,
