@@ -24,6 +24,7 @@ sources:
         - name: assigned_category
         - name: payment_instrument
         - name: order_payment_instrument
+        - name: price_adjustment
   - name: attentive_sftp
     database: tr_prd_db_fivetran
     schema: attentive_sftp
