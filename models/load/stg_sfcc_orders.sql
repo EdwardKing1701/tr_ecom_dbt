@@ -135,7 +135,7 @@ select
     end as order_type,
     case
         when c_poquser_agent = 'Android' then 'ANDROID'
-        when c_poquser_agent = ' iPhone' then 'IOS'
+        when c_poquser_agent = 'iPhone' then 'IOS'
         else 'WEB'
     end as platform,
     customer_id,
