@@ -29,7 +29,7 @@ sources:
     database: tr_prd_db_fivetran
     schema: attentive_sftp
     tables:
-        - name: campaign
+        - name: campaign_detail
   - name: gsheets
     database: tr_prd_db_fivetran
     schema: google_sheets
