@@ -99,6 +99,8 @@ select
     month_id,
     quarter_id,
     year_id,
+    min(date) as min_date,
+    max(date) as max_date,
     sum(orders) as orders,
     sum(sale_qty) as sale_qty,
     sum(sale_cost) as sale_cost,
@@ -114,10 +116,10 @@ select
     sum(sale_amt_budget) as sale_amt_budget,
     sum(sessions_budget) as sessions_budget,
     sum(net_sales) as net_sales,
-    sum(cogs) as cogs,
+    sum(net_sales) - sum(cogs) as gross_margin,
     sum(shipping_revenue) as shipping_revenue,
     sum(net_sales_budget) as net_sales_budget,
-    sum(cogs_budget) as cogs_budget,
+    sum(net_sales_budget) - sum(cogs_budget) as gross_margin_budget,
     sum(shipping_revenue_budget) as shipping_revenue_budget
 from cte_calendar
 natural join cte_demand_yoy
