@@ -13,7 +13,7 @@ cte_calendar as (
     where
         to_date_type = 'TODAY'
         and time_period in ('TY', 'LY')
-        and date between previous_day(current_date(), 'sa') - 6 and previous_day(current_date(), 'sa')
+        {# and date between previous_day(current_date(), 'sa') - 6 and previous_day(current_date(), 'sa') #}
 ),
 cte_order_items as (
     select
