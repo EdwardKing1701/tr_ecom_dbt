@@ -3,13 +3,13 @@ cte_test as (
     select coalesce((
         select
             sum(sessions)
-        from {{ref('ga_channels')}}
+        from {{source('load', 'ga_channels')}}
         where
             date = current_date() - 1 and channel = 'Unassigned'
     ) / (
         select
             sum(sessions)
-        from {{ref('ga_channels')}}
+        from {{source('load', 'ga_channels')}}
         where
             date = current_date() - 1
     ), 1) as data

@@ -5,6 +5,18 @@ sources:
     database: tr_prd_ecom_db
     schema: load
     tables:
+      - name: ga_add_to_cart_users
+      - name: ga_app_users
+      - name: ga_channels_platform
+      - name: ga_channels_user_type
+      - name: ga_channels
+      - name: ga_hourly
+      - name: ga_international_by_country
+      - name: ga_international
+      - name: ga_items_platform
+      - name: ga_items_user_type
+      - name: ga_items
+      - name: ga_sessions
       - name: price_lists
       - name: lexer_members
       - name: retail_loyalty_manual_upload

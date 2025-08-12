@@ -4,7 +4,7 @@ cte_test as (
         date as dimension,
         coalesce(sum(sessions), 0) as data
     from {{ref('cte_source_freshness_date_range')}}
-    left join {{ref('ga_international')}} using (date)
+    left join {{source('load', 'ga_international')}} using (date)
     group by all
 )
 select
