@@ -47,6 +47,10 @@ sources:
     schema: google_sheets
     tables:
         - name: intraday_comparison_override
+  - name: share_point
+    database: tr_prd_db_fivetran
+    tables:
+        - name: ugc
   - name: robling_dwh
     database: robling_prd_db
     schema: dw_dwh
