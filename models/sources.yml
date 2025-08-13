@@ -3,7 +3,6 @@ version: 2
 sources:  
   - name: load
     database: tr_prd_ecom_db
-    schema: load
     tables:
       - name: ga_add_to_cart_users
       - name: ga_app_users
@@ -39,7 +38,6 @@ sources:
         - name: price_adjustment
   - name: attentive_sftp
     database: tr_prd_db_fivetran
-    schema: attentive_sftp
     tables:
         - name: campaign_detail
   - name: gsheets
