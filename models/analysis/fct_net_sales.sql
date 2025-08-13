@@ -15,8 +15,9 @@ select
     gross_sales_units as gross_sale_qty,
     gross_sales_retail - sales_gross_margin as gross_sale_cost,
     gross_sales_retail as gross_sale_amt,
+    convert_timezone('America/Los_Angeles', inserted_ts) as source_synced_ts,
     current_timestamp() as inserted_ts
-from {{ref('mstr_net_sales')}}
+from {{source('load', 'mstr_net_sales')}}
 where
     date < current_date()
 order by date

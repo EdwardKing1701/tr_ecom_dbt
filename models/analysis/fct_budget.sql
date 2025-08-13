@@ -23,7 +23,7 @@ cte_budget as (
         shipping_revenue as shipping_revenue_budget,
         net_sales as net_sales_budget,
         cogs as cogs_budget
-    from {{ref('planful_net_sales')}}
+    from {{source('load', 'planful_net_sales')}}
     where
         dimension = 'Budget'
 ),
@@ -37,7 +37,7 @@ cte_actual as (
         shipping_revenue,
         net_sales,
         cogs
-    from {{ref('planful_net_sales')}}
+    from {{source('load', 'planful_net_sales')}}
     where
         dimension in ('TY', 'LY')
 )

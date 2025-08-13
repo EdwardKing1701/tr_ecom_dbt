@@ -27,7 +27,7 @@ cte_analytics_session as (
         date,
         coalesce(sessions, 0) as sessions_total,
         coalesce(engaged_sessions, 0) as engaged_sessions_total
-    from {{ref('ga_sessions')}}
+    from {{ref('src_ga_sessions')}}
 ),
 cte_demand_sales as (
     select

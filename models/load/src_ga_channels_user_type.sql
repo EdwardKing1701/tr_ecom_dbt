@@ -13,6 +13,7 @@ select
     purchases,
     engaged_sessions,
     shipping,
-    tax
-from {{ref('ga_channels_user_type')}}
+    tax,
+    convert_timezone('America/Los_Angeles', inserted_ts) as source_synced_ts
+from {{source('load', 'ga_channels_user_type')}}
 left join {{ref('channel_correction')}} using (channel)

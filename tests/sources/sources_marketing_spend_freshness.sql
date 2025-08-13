@@ -3,7 +3,7 @@ cte_test as (
     select
         coalesce(sum(spend), 0) as data
     from {{ref('cte_source_freshness_date_range')}}
-    left join {{ref('marketing_spend')}} using (date)
+    left join {{source('load', 'marketing_spend')}} using (date)
     where
         date = previous_day(current_date(), 'sa')
 )

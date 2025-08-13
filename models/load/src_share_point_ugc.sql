@@ -10,7 +10,7 @@ select
     date_added_to_site::date as date_added_to_site,
     upper(trim(sku_color, '\n')) as color,
     comment,
-    convert_timezone('America/Los_Angeles', _fivetran_synced) as synced_ts
+    convert_timezone('America/Los_Angeles', _fivetran_synced) as source_synced_ts
 from {{source('share_point', 'ugc')}}
 where
     sku_color is not null

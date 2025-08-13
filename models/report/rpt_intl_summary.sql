@@ -23,7 +23,7 @@ cte_traffic_total as (
         date,
         'Total' as country_code,
         sessions
-    from {{ref('ga_international')}}
+    from {{ref('src_ga_international')}}
 ),
 cte_sales_by_country as (
     select
@@ -43,7 +43,7 @@ cte_traffic_by_country as (
         date,
         country_code,
         sessions
-    from {{ref('ga_international_by_country')}}
+    from {{ref('src_ga_international_by_country')}}
 
 ),
 cte_country as (

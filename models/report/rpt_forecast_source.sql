@@ -16,7 +16,7 @@ cte_forecast as (
         ratio_to_report(sale_amt_forecast) over (partition by month_id) as share_of_monthly_sale_amt_forecast,
         traffic_forecast as sessions_forecast,
         ratio_to_report(sessions_forecast) over (partition by month_id) as share_of_monthly_sessions_forecast
-    from {{ref('ecom_demand_plan')}}
+    from {{source('load', 'ecom_demand_plan')}}
     join {{ref('dim_date')}} using (date)
 ),
 cte_budget_monthly as (
@@ -54,7 +54,7 @@ cte_channel_forecast as (
         sale_amt_forecast,
         ratio_to_report(sale_amt_forecast) over (partition by date) as share_of_daily_sale_amt_forecast,
         sale_amt_budget * share_of_daily_sale_amt_forecast as sale_amt_budget
-    from {{ref('ecom_channel_plan')}}
+    from {{source('load', 'ecom_channel_plan')}}
     left join cte_budget_daily using (date)
 )
 select

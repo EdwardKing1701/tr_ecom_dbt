@@ -10,5 +10,5 @@ select
     status,
     orders,
     units
-from {{ref('sv_order_summary')}}
+from {{source('load', 'sv_order_summary')}}
 order by created_date, shipped_date, status

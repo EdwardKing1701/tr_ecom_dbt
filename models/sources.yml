@@ -4,6 +4,8 @@ sources:
   - name: load
     database: tr_prd_ecom_db
     tables:
+      - name: ecom_demand_plan
+      - name: ecom_channel_plan
       - name: ga_add_to_cart_users
       - name: ga_app_users
       - name: ga_channels_platform
@@ -16,11 +18,17 @@ sources:
       - name: ga_items_user_type
       - name: ga_items
       - name: ga_sessions
+      - name: marketing_spend
+      - name: marketing_spend_forecast
+      - name: mstr_net_sales
+      - name: planful_net_sales
       - name: price_lists
+      - name: promo_calendar
       - name: lexer_members
       - name: retail_loyalty_manual_upload
       - name: retail_loyalty_store_id
       - name: retail_district_code
+      - name: sv_order_summary
   - name: sfcc
     database: tr_prd_db_fivetran
     schema: salesforce_commerce_cloud

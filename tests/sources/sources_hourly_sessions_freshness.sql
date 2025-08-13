@@ -1,20 +1,22 @@
 with
 cte_test as (
     select
-        coalesce(sum(net_sales_retail), 0) as data
+        date as dimension,
+        coalesce(sum(sessions), 0) as data
     from {{ref('cte_source_freshness_date_range')}}
-    left join {{source('load', 'mstr_net_sales')}} using (date)
+    left join {{source('load', 'ga_hourly')}} using (date)
+    group by all
 )
 select
     '{{this.name}}' as test_name,
-    'load.mstr_net_sales' as source_name,
-    null as dimension,
-    'Net Sales not null' as description,
+    'load.ga_hourly' as source_name,
+    dimension,
+    'Sessions > 100,000' as description,
     null as source_synced_ts,
     null as max_data_date,
     analysis.local_time(current_timestamp()) as tested_ts,
     data,
     null as stop_execution,
-    data <> 0 as passed
+    data > 100000 as passed
 from cte_test
 where not passed

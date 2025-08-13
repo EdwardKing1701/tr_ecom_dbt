@@ -12,6 +12,7 @@ select
     ecom_promo_ty,
     store_promo_ly,
     ecom_promo_ly,
+    convert_timezone('America/Los_Angeles', inserted_ts) as source_synced_ts,
     current_timestamp() as inserted_ts
-from {{ref('promo_calendar')}}
+from {{source('load', 'promo_calendar')}}
 order by date

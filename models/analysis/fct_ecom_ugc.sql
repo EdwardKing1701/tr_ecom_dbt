@@ -11,7 +11,7 @@ select
     imagery_position,
     talent_name,
     comment,
-    synced_ts,
+    source_synced_ts,
     current_timestamp() as inserted_ts
 from {{ref('src_share_point_ugc')}}
 qualify row_number() over (partition by ugc_list, color order by date_added_to_site) = 1

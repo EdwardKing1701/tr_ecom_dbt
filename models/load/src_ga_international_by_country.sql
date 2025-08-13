@@ -5,9 +5,9 @@
 }}
 select
     date,
-    platform,
+    country_code,
     sessions,
-    active_users,
-    first_opens,
+    purchases,
+    revenue,
     convert_timezone('America/Los_Angeles', inserted_ts) as source_synced_ts
-from {{source('load', 'ga_app_users')}}
+from {{source('load', 'ga_international_by_country')}}

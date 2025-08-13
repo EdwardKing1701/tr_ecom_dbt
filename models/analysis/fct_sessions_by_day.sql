@@ -9,5 +9,5 @@ select
     coalesce(sessions, 0) as sessions,
     coalesce(engaged_sessions, 0) as engaged_sessions,
     current_timestamp() as inserted_ts
-from {{ref('ga_sessions')}}
+from {{ref('src_ga_sessions')}}
 order by date
