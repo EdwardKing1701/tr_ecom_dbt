@@ -18,6 +18,7 @@ sources:
       - name: ga_items_user_type
       - name: ga_items
       - name: ga_sessions
+      - name: itunes_connect_downloads
       - name: marketing_spend
       - name: marketing_spend_forecast
       - name: mstr_net_sales
@@ -53,6 +54,14 @@ sources:
     schema: google_sheets
     tables:
         - name: intraday_comparison_override
+  - name: itunes_connect
+    database: tr_prd_db_fivetran
+    tables:
+        - name: app_store_download_standard_daily
+  - name: google_play
+    database: tr_prd_db_fivetran
+    tables:
+        - name: stats_installs_overview
   - name: share_point
     database: tr_prd_db_fivetran
     tables:
