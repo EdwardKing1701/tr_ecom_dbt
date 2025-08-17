@@ -6,7 +6,7 @@
 }}
 select
     date,
-    lower(platform) as platform,
+    platform,
     users,
     source_synced_ts,
     current_timestamp() as inserted_ts

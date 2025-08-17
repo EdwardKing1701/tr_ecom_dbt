@@ -134,9 +134,9 @@ select
         else 'Domestic'
     end as order_type,
     case
-        when c_poquser_agent = 'Android' then 'ANDROID'
-        when c_poquser_agent = 'iPhone' then 'IOS'
-        else 'WEB'
+        when c_poquser_agent = 'Android' then 'Android'
+        when c_poquser_agent = 'iPhone' then 'iOS'
+        else 'web'
     end as platform,
     customer_id,
     currency as order_currency,
