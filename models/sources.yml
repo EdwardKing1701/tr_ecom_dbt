@@ -1,6 +1,10 @@
 version: 2
 
 sources:  
+  - name: google_analytics
+    database: google_analytics_raw_data
+    tables:
+        - name: analytics_303711007__view
   - name: load
     database: tr_prd_ecom_db
     tables:
