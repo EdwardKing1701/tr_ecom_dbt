@@ -1,13 +1,14 @@
 {{
     config(
-        materialized = 'table',
-        pk = ['date', 'platform', 'style', 'color', 'item_list_id']
+        materialized = 'incremental',
+        incremental_strategy = 'replace',
+        unique_key = ['date'],
+        pk = ['date', 'platform', 'color', 'item_list_id']
     )
 }}
 select
     event_date as date,
     'web' as platform,
-    i.value:item_id::text as style,
     i.value:item_variant::text as color,
     i.value:item_list_id::text as item_list_id,
     sum(iff(event_name = 'view_item', 1, 0)) as item_views,
@@ -26,6 +27,9 @@ where
     event_name in ('view_item', 'add_to_cart', 'remove_from_cart', 'begin_checkout', 'purchase')
     and platform = 'WEB'
     and event_date >= '2025-02-02'
-    and event_date = current_date() - 2
+    and event_date < current_date()
+    {% if is_incremental() %}
+    and event_date >= current_date() - 7
+    {% endif %}
 group by all
-order by date, platform, style, color, item_list_id
+order by date, platform, color, item_list_id
