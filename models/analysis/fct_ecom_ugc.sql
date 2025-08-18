@@ -7,6 +7,7 @@
 select
     ugc_list,
     color,
+    try_to_decimal(split_part(ugc_list, '_', 1) || split_part(ugc_list, '_', 2)) as month_id,
     date_added_to_site,
     imagery_position,
     talent_name,
