@@ -5,6 +5,8 @@ cte_test as (
         coalesce(sum(counts), 0) as data
     from {{ref('cte_source_freshness_date_range')}}
     left join {{source('itunes_connect', 'app_store_download_standard_daily')}} using (date)
+    where
+        date <= current_date() - 2
     group by all
 )
 select
