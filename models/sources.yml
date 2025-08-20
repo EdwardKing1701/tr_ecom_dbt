@@ -12,6 +12,8 @@ sources:
       - name: ecom_channel_plan
       - name: ga_add_to_cart_users
       - name: ga_app_users
+      - name: ga_device_platform
+      - name: ga_device_platform_items
       - name: ga_channels_platform
       - name: ga_channels_user_type
       - name: ga_channels
