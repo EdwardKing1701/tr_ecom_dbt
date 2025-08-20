@@ -34,7 +34,7 @@ cte_sales as (
         sale_qty,
         sale_cost,
         sale_amt
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
     where
     (
         demand_date between current_date() - 1 and current_date()

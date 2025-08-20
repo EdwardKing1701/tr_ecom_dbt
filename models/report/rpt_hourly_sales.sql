@@ -29,7 +29,7 @@ cte_sales_api as (
         count(distinct order_id) as orders_api,
         sum(sale_qty) as sale_qty_api,
         sum(sale_amt) as sale_amt_api
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
     where
         demand_date = current_date()
         and demand_ts <= current_timestamp()

@@ -12,7 +12,7 @@ cte_sales_total as (
         sum(sale_qty) as sale_qty,
         sum(sale_amt) as sale_amt,
         sum(sale_amt) - sum(sale_cost) as gross_margin
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
     where
         order_type = 'International'
         and status <> 'cancelled'
@@ -33,7 +33,7 @@ cte_sales_by_country as (
         sum(sale_qty) as sale_qty,
         sum(sale_amt) as sale_amt,
         sum(sale_amt) - sum(sale_cost) as gross_margin
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
     where
         order_type = 'International'
     group by all

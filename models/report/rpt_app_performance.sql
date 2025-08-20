@@ -20,7 +20,7 @@ cte_orders as (
         platform,
         count(distinct order_id) as orders,
         sum(sale_amt) as sale_amt
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
     where
         platform in ('Android', 'iOS')
         and demand_date between '2023-01-29' and current_date() - 1

@@ -34,7 +34,7 @@ cte_sales_by_item as (
         sku,
         sum(sale_qty) as sale_qty,
         sum(sale_amt) as sale_amt
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
     where
         demand_date = current_date()
         and demand_ts <= current_timestamp()

@@ -8,7 +8,7 @@ cte_orders as (
     select distinct
         order_id,
         demand_date as date
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
 ),
 cte_payment_instrument as (
     select

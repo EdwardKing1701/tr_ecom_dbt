@@ -1,0 +1,50 @@
+{{
+    config(
+        materialized = 'view'
+    )
+}}
+select
+    order_item_id,
+    order_id,
+    site_id,
+    shipment_id,
+    shipment_no,
+    invoice_no,
+    status,
+    export_status,
+    order_ts,
+    order_date,
+    demand_ts,
+    demand_date,
+    order_type,
+    platform,
+    customer_id,
+    order_currency,
+    customer_currency,
+    shipping_method,
+    shipping_city,
+    shipping_country,
+    shipping_state,
+    order_total,
+    shipping_total,
+    tax_total,
+    shipping_total_tax,
+    itm_key,
+    sku,
+    base_price,
+    sale_qty,
+    sale_cost,
+    sale_amt,
+    order_discount,
+    item_discount,
+    total_discount,
+    item_tax,
+    bonus_product_line_item,
+    gift,
+    order_synced,
+    order_item_synced,
+    shipment_synced,
+    shipment_address_synced
+from {{ref('stg_sfcc_orders')}}
+where
+    status <> 'cancelled'

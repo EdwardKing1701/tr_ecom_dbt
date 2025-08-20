@@ -27,7 +27,7 @@ cte_order_items as (
         sale_amt,
         order_discount,
         item_discount
-    from {{ref('stg_sfcc_orders')}}
+    from {{ref('v_sfcc_orders')}}
     join cte_calendar using(demand_date)
 ),
 cte_orders as (
