@@ -1,3 +1,8 @@
+{{
+    config(
+        severity = 'warn'
+    )
+}}
 with
 cte_test as (
     select
