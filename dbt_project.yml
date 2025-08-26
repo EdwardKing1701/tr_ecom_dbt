@@ -43,6 +43,8 @@ models:
       schema: validation
     load:
       schema: load
+    stg:
+      schema: stg
 
 seeds:
   +copy_grants: true
