@@ -18,6 +18,8 @@ sources:
       - name: ga_channels_user_type
       - name: ga_channels
       - name: ga_hourly
+      - name: ga_hourly_channels
+      - name: ga_hourly_channels_items
       - name: ga_international_by_country
       - name: ga_international
       - name: ga_items_platform
