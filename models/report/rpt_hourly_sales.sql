@@ -40,7 +40,7 @@ cte_sessions as (
         date,
         hour,
         sessions
-    from {{ref('src_ga_hourly')}}
+    from {{ref('stg_ga_hourly')}}
     where
         (
             date between current_date() - 2 and current_date()

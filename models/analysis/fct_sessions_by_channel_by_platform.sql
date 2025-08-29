@@ -16,8 +16,8 @@ cte_analytics_channel as (
         sum(revenue) as sale_amt_unadjusted,
         sum(shipping) as shipping_unadjusted,
         sum(tax) as tax_unadjusted
-    from {{ref('src_ga_channels')}}
-    full join {{ref('src_ga_items')}} using (date, channel_original, channel)
+    from {{ref('stg_ga_channels')}}
+    full join {{ref('stg_ga_items')}} using (date, channel_original, channel)
     where
         channel <> 'Unassigned'
     group by all
@@ -27,7 +27,7 @@ cte_analytics_session as (
         date,
         coalesce(sessions, 0) as sessions_total,
         coalesce(engaged_sessions, 0) as engaged_sessions_total
-    from {{ref('src_ga_sessions')}}
+    from {{ref('stg_ga_sessions')}}
 ),
 cte_demand_sales as (
     select
@@ -84,8 +84,8 @@ cte_platform as (
         sum(revenue) as platform_sale_amt,
         sum(shipping) as platform_shipping,
         sum(tax) as platform_tax
-    from {{ref('src_ga_channels_platform')}}
-    full join {{ref('src_ga_items_platform')}} using (date, channel_original, channel, platform)
+    from {{ref('stg_ga_channels_platform')}}
+    full join {{ref('stg_ga_items_platform')}} using (date, channel_original, channel, platform)
     where
         platform in ('Android', 'iOS', 'web')
         and channel <> 'Unassigned'

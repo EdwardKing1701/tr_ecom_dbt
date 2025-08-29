@@ -14,7 +14,7 @@ cte_sessions as (
         revenue,
         purchases,
         engaged_sessions
-    from {{ref('src_ga_device_platform')}}
+    from {{ref('stg_ga_device_platform')}}
 ),
 cte_items as (
     select
@@ -22,7 +22,7 @@ cte_items as (
         platform,
         device_category,
         quantity
-    from {{ref('src_ga_device_platform_items')}}
+    from {{ref('stg_ga_device_platform_items')}}
 ),
 cte_all_ga as (
     select
@@ -65,7 +65,7 @@ cte_analytics_session as (
         date,
         coalesce(sessions, 0) as sessions_total,
         coalesce(engaged_sessions, 0) as engaged_sessions_total
-    from {{ref('src_ga_sessions')}}
+    from {{ref('stg_ga_sessions')}}
 ),
 cte_adjusted_demand as (
     select

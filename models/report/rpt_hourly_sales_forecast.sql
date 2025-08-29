@@ -55,7 +55,7 @@ cte_sessions_hourly as (
         date,
         hour,
         sessions as sessions_hourly
-    from {{ref('src_ga_hourly')}}
+    from {{ref('stg_ga_hourly')}}
     join cte_comp_dates_override using (date)
 ),
 cte_share_of_sales_by_date as (

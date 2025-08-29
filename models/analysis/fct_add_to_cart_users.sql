@@ -10,5 +10,5 @@ select
     users,
     source_synced_ts,
     current_timestamp() as inserted_ts
-from {{ref('src_ga_add_to_cart_users')}}
+from {{ref('stg_ga_add_to_cart_users')}}
 order by date, platform

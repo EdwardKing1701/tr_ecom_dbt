@@ -11,7 +11,7 @@ cte_sessions as (
         sum(sessions) as sessions,
         sum(active_users) as active_users,
         sum(first_opens) as first_opens
-    from {{ref('src_ga_app_users')}}
+    from {{ref('stg_ga_app_users')}}
     group by all
 ),
 cte_orders as (

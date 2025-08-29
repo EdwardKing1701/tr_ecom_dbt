@@ -57,6 +57,3 @@ data_tests:
   +schema: validation
   +store_failures: true
   transient: false # So we can time travel tables
-  tr_ecom_dbt:
-    sources:
-      +tags: "tests_sources"
