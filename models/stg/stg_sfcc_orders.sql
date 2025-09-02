@@ -88,27 +88,23 @@ cte_shipment_addresses as (
 cte_cost_historical as (
     select
         itm_key,
-        sty_clr_code as color,
-        day_key as order_date,
-        stdcost as cost_historical
-    from {{source('robling_dwh', 'dwh_f_cst_itm_b')}}
-    where
-        cntry_code = 'USA'
+        color,
+        date as order_date,
+        cost_historical
+    from {{ref('stg_robling_item_cost_history')}}
 ),
 cte_cost_current as (
     select
         itm_key,
-        stdcost as cost_current
-    from {{source('robling_dwh', 'dwh_f_curr_cst_itm_b')}}
-    where
-        cntry_code = 'USA'
+        cost_current
+    from {{ref('stg_robling_item_cost_current')}}
 ),
 cte_items as (
     select
-        itm_id as sku,
+        sku,
         itm_key,
-        sty_id || '-' || color_num as color
-    from {{source('robling_merch', 'dv_dwh_d_prd_itm_lu')}}
+        color
+    from {{ref('stg_items')}}
 )
 select
     order_item_id,
@@ -153,7 +149,11 @@ select
     sku,
     base_price,
     quantity as sale_qty,
-    quantity * coalesce(cost_historical, cost_current, 0) as sale_cost,
+    {% if is_incremental() %}
+        quantity * coalesce(cost_current, 0) as sale_cost,
+    {% else %}
+        quantity * coalesce(cost_historical, cost_current, 0) as sale_cost,
+    {% endif %}
     price_after_order_discount as sale_amt,
     price_after_item_discount - price_after_order_discount as order_discount,
     net_price - price_after_item_discount as item_discount,
@@ -170,6 +170,8 @@ natural join cte_orders
 natural left join cte_shipments
 natural left join cte_shipment_addresses
 natural left join cte_items
+{% if not is_incremental() %}
 natural left join cte_cost_historical
+{% endif %}
 natural left join cte_cost_current
 order by order_ts, order_id, shipment_id, order_item_id
