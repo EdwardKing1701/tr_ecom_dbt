@@ -5,7 +5,7 @@
 }}
 
 {%- if execute -%}
-{%- set l = run_query("select table_name from information_schema.tables where table_schema = 'VALIDATION' and table_name ilike 'sources%' and table_type = 'BASE TABLE'").columns[0].values() -%}
+{%- set l = run_query("select table_name from information_schema.tables where table_schema = 'VALIDATION' and table_name ilike 'test%' and table_type = 'BASE TABLE'").columns[0].values() -%}
 {%- for t in l -%}
 select
     test_name,
