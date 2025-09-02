@@ -1,7 +1,10 @@
 {{
     config(
         materialized = 'table',
-        pk = ['review_id']
+        pk = ['review_id'],
+        mask = {
+            'analysis.pii_mask': ['email_address']
+        }
     )
 }}
 with
