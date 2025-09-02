@@ -75,6 +75,10 @@ sources:
     database: tr_prd_db_fivetran
     tables:
         - name: ugc
+  - name: yotpo
+    database: tr_prd_db_fivetran
+    tables:
+        - name: review
   - name: robling_dwh
     database: robling_prd_db
     schema: dw_dwh
