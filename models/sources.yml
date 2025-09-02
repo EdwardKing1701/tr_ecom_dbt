@@ -66,6 +66,7 @@ sources:
     database: tr_prd_db_fivetran
     tables:
         - name: app_store_download_standard_daily
+        - name: app_store_review
   - name: google_play
     database: tr_prd_db_fivetran
     tables:
