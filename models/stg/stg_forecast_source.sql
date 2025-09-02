@@ -17,7 +17,7 @@ cte_forecast as (
         traffic_forecast as sessions_forecast,
         ratio_to_report(sessions_forecast) over (partition by month_id) as share_of_monthly_sessions_forecast
     from {{source('load', 'ecom_demand_plan')}}
-    join {{ref('dim_date')}} using (date)
+    join {{ref('stg_date')}} using (date)
 ),
 cte_budget_monthly as (
     select
@@ -32,7 +32,7 @@ cte_budget_monthly as (
             month_id,
             sum(sale_qty_forecast) / nullifzero(sum(orders_forecast)) as upt_forecast
         from cte_forecast
-        join {{ref('dim_date')}} using (date)
+        join {{ref('stg_date')}} using (date)
         group by all
     ) using (month_id)
 ),

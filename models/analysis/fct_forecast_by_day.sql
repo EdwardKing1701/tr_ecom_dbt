@@ -12,7 +12,7 @@ cte_net_sales_budget as ( --added to the first day of the month as the net sales
         net_sale_cost_budget,
         shipping_budget
     from {{ref('ecom_demand_budget')}}
-    join {{ref('dim_date')}} using (month_id)
+    join {{ref('stg_date')}} using (month_id)
     where
         day_in_month = 1
 )
@@ -31,7 +31,7 @@ select
     shipping_budget,
     null as source_synced_ts,
     current_timestamp() as inserted_ts
-from {{ref('rpt_forecast_source')}}
+from {{ref('stg_forecast_source')}}
 left join cte_net_sales_budget using (date)
 where
     channel = 'ECOM Total'
